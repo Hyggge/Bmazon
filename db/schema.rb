@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_145504) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_31_150441) do
+  create_table "commodities", force: :cascade do |t|
+    t.string "name"
+    t.text "introduction"
+    t.integer "status"
+    t.integer "total"
+    t.integer "sale"
+    t.decimal "price", precision: 10, scale: 2
+    t.integer "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "shops", force: :cascade do |t|
     t.string "name"
     t.text "introduction"
