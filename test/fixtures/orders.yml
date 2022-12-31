@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: 1
+  price: 9.99
+  num: 1
+  address: MyString
+  note: MyText
+  pay_time: 2022-12-31 23:20:36
+  confirm_time: 2022-12-31 23:20:36
+  close_time: 2022-12-31 23:20:36
+  deliver_time: 2022-12-31 23:20:36
+
+two:
+  status: 1
+  price: 9.99
+  num: 1
+  address: MyString
+  note: MyText
+  pay_time: 2022-12-31 23:20:36
+  confirm_time: 2022-12-31 23:20:36
+  close_time: 2022-12-31 23:20:36
+  deliver_time: 2022-12-31 23:20:36
