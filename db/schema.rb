@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_152943) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_31_153227) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -60,6 +60,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_152943) do
 
   create_table "params", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.integer "floor"
+    t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

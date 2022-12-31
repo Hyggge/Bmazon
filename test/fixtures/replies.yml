@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  floor: 1
+  content: MyString
+
+two:
+  floor: 1
+  content: MyString
