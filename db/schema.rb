@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_152442) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_31_152632) do
   create_table "comments", force: :cascade do |t|
     t.integer "grade"
     t.text "content"
@@ -26,6 +26,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_152442) do
     t.integer "sale"
     t.decimal "price", precision: 10, scale: 2
     t.integer "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string "description"
+    t.decimal "add"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
