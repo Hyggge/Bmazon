@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_151018) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_31_152442) do
   create_table "comments", force: :cascade do |t|
     t.integer "grade"
     t.text "content"
@@ -26,6 +26,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_151018) do
     t.integer "sale"
     t.decimal "price", precision: 10, scale: 2
     t.integer "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "status"
+    t.decimal "price", precision: 10, scale: 2
+    t.integer "num"
+    t.string "address"
+    t.text "note"
+    t.datetime "pay_time"
+    t.datetime "confirm_time"
+    t.datetime "close_time"
+    t.datetime "deliver_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "params", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
