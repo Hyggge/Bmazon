@@ -6,7 +6,7 @@ class User < ApplicationRecord
             length: { minimum: 6 },
             if: -> { new_record? || !password.nil? }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :role, numericality: { in: 0..1 }
+  validates :role, presence: true, numericality: { in: 0..1 }
 
 
 end
