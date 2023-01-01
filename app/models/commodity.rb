@@ -9,4 +9,6 @@ class Commodity < ApplicationRecord
   belongs_to :shop
   belongs_to :image
 
+  has_many :orders, dependent: :delete_all
+
 end

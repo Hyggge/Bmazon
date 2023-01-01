@@ -13,7 +13,9 @@ class User < ApplicationRecord
 
   has_many :owning_shops, class_name: "Shop", foreign_key: :owner_id, dependent: :delete_all
 
-  has_many :shop_managements, dependent: delete_all
+  has_many :shop_managements, dependent: :delete_all
   has_many :managing_shops, through: :shop_managements, source: :shop
+
+  has_many :orders, dependent: :delete_all
 
 end

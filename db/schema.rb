@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_132639) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_133353) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -67,6 +67,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_132639) do
     t.datetime "deliver_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "commodity_id", null: false
+    t.integer "user_id", null: false
+    t.index ["commodity_id"], name: "index_orders_on_commodity_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "params", force: :cascade do |t|
@@ -130,6 +134,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_132639) do
   add_foreign_key "comments", "orders"
   add_foreign_key "commodities", "images"
   add_foreign_key "commodities", "shops"
+  add_foreign_key "orders", "commodities"
+  add_foreign_key "orders", "users"
   add_foreign_key "shop_managements", "shops"
   add_foreign_key "shop_managements", "users"
   add_foreign_key "shops", "images"
