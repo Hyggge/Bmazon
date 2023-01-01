@@ -16,5 +16,7 @@ class Commodity < ApplicationRecord
 
   has_many :params, dependent: :delete_all
 
+  has_many :relative_articles, class_name: "Article", foreign_key: :commodity_id, dependent: :delete_all
+
 
 end

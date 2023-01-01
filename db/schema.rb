@@ -10,12 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_140024) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_140734) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "commodity_id"
+    t.integer "author_id", null: false
+    t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["commodity_id"], name: "index_articles_on_commodity_id"
   end
 
   create_table "collects", force: :cascade do |t|
@@ -153,6 +157,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_140024) do
     t.index ["student_id"], name: "index_users_on_student_id"
   end
 
+  add_foreign_key "articles", "commodities"
+  add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "collects", "commodities"
   add_foreign_key "collects", "users"
   add_foreign_key "comments", "orders"
