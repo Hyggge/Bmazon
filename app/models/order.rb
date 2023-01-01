@@ -8,4 +8,7 @@ class Order < ApplicationRecord
   belongs_to :commodity
   belongs_to :user
 
+  has_many :order_option_maps, dependent: :delete_all
+  has_many :options, through: :order_option_maps, source: :option
+
 end

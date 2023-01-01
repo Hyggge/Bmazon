@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_135531) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_140024) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -64,6 +64,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_135531) do
     t.datetime "updated_at", null: false
     t.integer "param_id", null: false
     t.index ["param_id"], name: "index_options_on_param_id"
+  end
+
+  create_table "order_option_maps", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "option_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_id"], name: "index_order_option_maps_on_option_id"
+    t.index ["order_id"], name: "index_order_option_maps_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -150,6 +159,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_135531) do
   add_foreign_key "commodities", "images"
   add_foreign_key "commodities", "shops"
   add_foreign_key "options", "params"
+  add_foreign_key "order_option_maps", "options"
+  add_foreign_key "order_option_maps", "orders"
   add_foreign_key "orders", "commodities"
   add_foreign_key "orders", "users"
   add_foreign_key "params", "commodities"
