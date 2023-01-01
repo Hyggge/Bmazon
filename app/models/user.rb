@@ -11,5 +11,7 @@ class User < ApplicationRecord
   belongs_to :image
   belongs_to :student
 
+  has_one :shop, class_name: "Shop", foreign_key: :owner_id
+
 
 end
