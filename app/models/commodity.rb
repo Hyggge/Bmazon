@@ -11,4 +11,8 @@ class Commodity < ApplicationRecord
 
   has_many :orders, dependent: :delete_all
 
+  has_many :collects, dependent: :delete_all
+  has_many :collectors, through: :collects, source: :user
+
+
 end
