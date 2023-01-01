@@ -3,4 +3,6 @@ class Order < ApplicationRecord
   validates :price, presence: true
   validates :num, presence: true
 
+  has_many :comments, dependent: delete_all
+
 end

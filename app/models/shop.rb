@@ -8,6 +8,6 @@ class Shop < ApplicationRecord
   has_many :shop_managements, dependent: :delete_all
   has_many :managers, through: :shop_managements, source: :user
 
-  has_many :commodities
+  has_many :commodities, dependent: delete_all
 
 end
