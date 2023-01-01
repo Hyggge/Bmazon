@@ -5,4 +5,7 @@ class Shop < ApplicationRecord
   belongs_to :image
   belongs_to :owner, class_name: "User", foreign_key: :owner_id
 
+  has_many :shop_managements, dependent: :delete_all
+  has_many :managers, through: :shop_managements, source: :user
+
 end

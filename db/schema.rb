@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_123601) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_125103) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -76,6 +76,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_123601) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shop_managements", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_shop_managements_on_shop_id"
+    t.index ["user_id"], name: "index_shop_managements_on_user_id"
+  end
+
   create_table "shops", force: :cascade do |t|
     t.string "name"
     t.text "introduction"
@@ -112,5 +121,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_123601) do
     t.index ["student_id"], name: "index_users_on_student_id"
   end
 
+  add_foreign_key "shop_managements", "shops"
+  add_foreign_key "shop_managements", "users"
+  add_foreign_key "shops", "images"
   add_foreign_key "shops", "users", column: "owner_id"
+  add_foreign_key "users", "images"
+  add_foreign_key "users", "students"
 end

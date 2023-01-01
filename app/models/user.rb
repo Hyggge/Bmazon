@@ -11,7 +11,9 @@ class User < ApplicationRecord
   belongs_to :image
   belongs_to :student
 
-  has_one :shop, class_name: "Shop", foreign_key: :owner_id
+  has_many :owning_shops, class_name: "Shop", foreign_key: :owner_id, dependent: :delete_all
 
+  has_many :shop_managements, dependent: delete_all
+  has_many :managing_shops, through: :shop_managements, source: :shop
 
 end
