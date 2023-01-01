@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_140734) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_141853) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -110,6 +110,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_140734) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "article_id", null: false
+    t.integer "refer_id"
+    t.integer "user_id", null: false
+    t.index ["article_id"], name: "index_replies_on_article_id"
+    t.index ["refer_id"], name: "index_replies_on_refer_id"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "shop_managements", force: :cascade do |t|
@@ -170,6 +176,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_140734) do
   add_foreign_key "orders", "commodities"
   add_foreign_key "orders", "users"
   add_foreign_key "params", "commodities"
+  add_foreign_key "replies", "articles"
+  add_foreign_key "replies", "replies", column: "refer_id"
+  add_foreign_key "replies", "users"
   add_foreign_key "shop_managements", "shops"
   add_foreign_key "shop_managements", "users"
   add_foreign_key "shops", "images"

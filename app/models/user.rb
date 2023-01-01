@@ -23,4 +23,5 @@ class User < ApplicationRecord
 
   has_many :written_articles, class_name: "Article", foreign_key: :author_id, dependent: :delete_all
 
+  has_many :written_replies, class_name: "Reply", foreign_key: :user_id, dependent: :delete_all
 end
