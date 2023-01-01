@@ -8,8 +8,8 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :role, presence: true, numericality: { in: 0..1 }
 
-  belongs_to :image
-  belongs_to :student
+  belongs_to :image, optional: true
+  belongs_to :student, optional: true
 
   has_many :owning_shops, class_name: "Shop", foreign_key: :owner_id, dependent: :delete_all
 
