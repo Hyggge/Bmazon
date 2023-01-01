@@ -5,4 +5,8 @@ class Commodity < ApplicationRecord
   validates :sale, presence: true
   validates :price, presence: true
   validates :method, presence: true , numericality: { in: 0..2 }
+
+  belongs_to :shop
+  belongs_to :image
+
 end
