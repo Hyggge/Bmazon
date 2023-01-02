@@ -22,11 +22,17 @@ class ImagesController < ApplicationController
   end
 
   # [POST] /api/images/<int:image_id>/set_user_image
-
+  def set_user_image
+    @image = Image.find_by(id: params[:image_id])
+    if @image
+      p @current_user.update(:image => @image)
+    else
+      render json: {error: 'image_id cannot be found'}, status: :not_found
+    end
+  end
 
 
   # [POST] /api/images/<int:image_id>/set_shop_image
-
 
 
   # [POST] /api/images/<int:image_id>/set_commodity_image

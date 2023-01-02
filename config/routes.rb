@@ -16,7 +16,10 @@ Rails.application.routes.draw do
   post '/api/images/<int:image_id>/set_shop_image', to: 'images#set_shop_image'
   post '/api/images/<int:image_id>/set_commodity_image', to: 'images#set_commodity_image'
 
-
+  # 用户相关接口
+  get '/api/users/:user_id', to: 'users#show_details'
+  put '/api/users/:user_id', to: 'users#update'
+  get '/api/admin/users', to: 'users#show_all_for_admin'
 
 
 end
