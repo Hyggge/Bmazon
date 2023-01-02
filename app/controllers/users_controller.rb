@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  before_action :authorize_request
   # [GET] /api/users/<int:user_id>
   def show_details
     @user = User.find_by(id: params[:user_id])
@@ -39,9 +39,11 @@ class UsersController < ApplicationController
 
   # [GET] /api/admin/users
   def show_all_for_admin
+    page = params[:page].to_i
+    page_size = 10
+
     data = []
-    res = {tot_count: User.all.length, data: data}
-    User.all.each do |user|
+    User.all[(page-1)*page_size...page*page_size].each do |user|
       data << {
         id: user.id,
         username: user.username,
@@ -52,6 +54,14 @@ class UsersController < ApplicationController
         is_admin: user.role
       }
     end
+
+    res = {
+      tot_count: User.all.length,
+      page_all: (User.all.length / page_size.to_f).ceil,
+      page: page,
+      data: data
+    }
+
     render json: res, status: :ok
   end
 

@@ -6,4 +6,6 @@ class Student < ApplicationRecord
 
   has_one :user
 
+  belongs_to :image
+
 end

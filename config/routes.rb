@@ -21,5 +21,10 @@ Rails.application.routes.draw do
   put '/api/users/:user_id', to: 'users#update'
   get '/api/admin/users', to: 'users#show_all_for_admin'
 
+  # 学生相关接口
+  post '/api/students', to: 'students#certificate'
+  get '/api/students/student_id', to: 'students#check_student_id'
+  get '/api/admin/students', to: 'students#show_all_for_admin'
+
 
 end
