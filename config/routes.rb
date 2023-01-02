@@ -26,5 +26,13 @@ Rails.application.routes.draw do
   get '/api/students/student_id', to: 'students#check_student_id'
   get '/api/admin/students', to: 'students#show_all_for_admin'
 
+  # 店铺相关接口
+  post '/api/shops', to: 'shops#create'
+  post '/api/shops/:shop_id/managers', to: 'shops#add_manager'
+  delete '/api/shops/:shop_id/managers/:student_id', to: 'shops#delete_manager'
+  get '/api/shops/:shop_id', to: 'shops#show_details'
+  get '/api/users/:user_id/shops', to: 'shops#show_owning_and_managing_shops'
+  get '/api/admin/shops', to: 'shops#show_all_for_admin'
+
 
 end
