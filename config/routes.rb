@@ -47,4 +47,15 @@ Rails.application.routes.draw do
   get '/api/admin/commodities', to: 'commodities#show_all_for_admin'
 
 
+  # 订单相关接口
+  post '/api/orders', to: 'orders#create'
+  post '/api/orders/:order_id/close', to: 'orders#close'
+  post '/api/orders/:order_id/pay', to: 'orders#pay'
+  post '/api/orders/:order_id/deliver', to: 'orders#deliver'
+  post '/api/orders/:order_id/confirm', to: 'orders#confirm'
+  get '/api/orders/:order_id', to: 'orders#show_details'
+  get '/api/user/orders/', to: 'orders#show_all_for_user'
+  get '/api/shops/:shop_id/orders', to: 'orders#show_all_for_shop'
+  get '/api/admin/orders', to: 'orders#show_all_for_admin'
+
 end

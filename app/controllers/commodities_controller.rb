@@ -265,7 +265,6 @@ class CommoditiesController < ApplicationController
     tot_count = 0
 
     data = []
-    p @current_user.collecting_commodities
     @current_user.collecting_commodities
          .all[(page-1)*page_size...page*page_size]
          .each do |commodity|
