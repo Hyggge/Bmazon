@@ -41,6 +41,7 @@ class UsersController < ApplicationController
   def show_all_for_admin
     page = params[:page].to_i
     page_size = 10
+    tot_count = 0
 
     data = []
     User.all[(page-1)*page_size...page*page_size].each do |user|
@@ -53,11 +54,12 @@ class UsersController < ApplicationController
         signature: user.signature,
         is_admin: user.role
       }
+      tot_count += 1
     end
 
     res = {
-      tot_count: User.all.length,
-      page_all: (User.all.length / page_size.to_f).ceil,
+      tot_count: tot_count,
+      page_all: (tot_count / page_size.to_f).ceil,
       page: page,
       data: data
     }

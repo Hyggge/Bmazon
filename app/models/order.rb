@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   validates :price, presence: true
   validates :num, presence: true
 
-  has_one :comment, dependent: :delete_all
+  has_one :comment, dependent: :delete
 
   belongs_to :commodity
   belongs_to :user

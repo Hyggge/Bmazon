@@ -135,6 +135,7 @@ class ShopsController < ApplicationController
   def show_all_for_admin
     page = params[:page].to_i
     page_size = 10
+    tot_count = 0
 
     data = []
     Shop.all[(page-1)*page_size...page*page_size].each do |shop|
@@ -149,12 +150,15 @@ class ShopsController < ApplicationController
           student_name: shop.owner.student.name
         }
       }
+      tot_count += 1
     end
 
-    res = {tot_count: Shop.all.length,
-           page_all: (Shop.all.length / page_size.to_f).ceil,
-           page: page,
-           data: data}
+    res = {
+      tot_count: tot_count,
+      page_all: (tot_count / page_size.to_f).ceil,
+      page: page,
+      data: data
+    }
 
     render json: res, status: :ok
 

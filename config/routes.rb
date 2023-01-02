@@ -34,5 +34,17 @@ Rails.application.routes.draw do
   get '/api/users/:user_id/shops', to: 'shops#show_owning_and_managing_shops'
   get '/api/admin/shops', to: 'shops#show_all_for_admin'
 
+  # 商品相关接口
+  post '/api/shops/:shop_id/commodities', to: 'commodities#create'
+  delete '/api/commodities/:commodity_id', to: 'commodities#delete'
+  get '/api/commodities/:commodity_id', to: 'commodities#show_details'
+  put '/api/commodities/:commodity_id', to: 'commodities#update'
+  get '/api/commodities', to: 'commodities#show_all_for_user'
+  get '/api/shops/:shop_id/commodities', to: 'commodities#show_all_for_shop'
+  post '/api/commodities/:commodity_id/collect', to: 'commodities#collect'
+  post '/api/commodities/:commodity_id/cancel_collect', to: 'commodities#cancel_collect'
+  get '/api/commodities/collect/list', to: 'commodities#show_collected'
+  get '/api/admin/commodities', to: 'commodities#show_all_for_admin'
+
 
 end

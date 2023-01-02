@@ -32,8 +32,12 @@ gem "bootsnap", require: false
 
 # Use Json Web Token (JWT) for token based authentication
 gem 'jwt'
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+
+# fuzzy string matching for ActiveRecord https://github.com/mezis/fuzzily
+gem 'fuzzily'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
