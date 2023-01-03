@@ -62,7 +62,7 @@ class UsersController < ApplicationController
         reg_time: user.created_at,
         phone_no: user.phone_no,
         signature: user.signature,
-        is_admin: user.role
+        role: user.role
       }
       tot_count += 1
     end
