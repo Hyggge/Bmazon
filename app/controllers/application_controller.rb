@@ -15,55 +15,56 @@ class ApplicationController < ActionController::API
 
   protected
   def check_article_id
-    @article = Article.find_by(id: params[:article_id])
+    @article = Article.find(params[:article_id])
+    p @article
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_comment_id
-    @comment = Comment.find_by(id: params[:comment_id])
+    @comment = Comment.find(params[:comment_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_commodity_id
-    @commodity = Commodity.find_by(id: params[:commodity_id])
+    @commodity = Commodity.find(params[:commodity_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_image_id
-    @image = Image.find_by(id: params[:image_id])
+    @image = Image.find(params[:image_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_order_id
-    @order = Order.find_by(id: params[:order_id])
+    @order = Order.find(params[:order_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_reply_id
-    @reply = Reply.find_by(id: params[:reply_id])
+    @reply = Reply.find(params[:reply_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_shop_id
-    @shop = Shop.find_by(id: params[:shop_id])
+    @shop = Shop.find(params[:shop_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_student_id
-    @student = Student.find_by(id: params[:student_id])
+    @student = Student.find(params[:student_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end
 
   def check_user_id
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find(params[:user_id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :bad_request
   end

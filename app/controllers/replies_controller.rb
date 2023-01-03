@@ -6,6 +6,15 @@ class RepliesController < ApplicationController
   # [POST] /api/articles/<int:article_id>/replies
   def create
     @article = Article.find_by(id: params[:article_id])
+    refer_id = params[:refer_id]
+    if refer_id != nil && Reply.find_by(id: refer_id) == nil
+      render json: {error: "invalid refer_id"}, status: :bad_request
+      return
+    elsif refer_id != nil && @article.reply_ids.include?(refer_id)
+      render json: {error: "the reply quoted do not belong in this article"}, status: :bad_request
+      return
+    end
+
     @reply = @article.replies.build(
       floor: @article.replies.length + 1,
       content: params[:content],
