@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authorize_request
   before_action :check_user_id, only: [:show_details, :update]
+  before_action :check_admin_role, only: [:show_all_for_admin]
 
   # [GET] /api/users/<int:user_id>
   def show_details
@@ -41,7 +42,7 @@ class UsersController < ApplicationController
     )
       render json: {success: true}, status: :ok
     else
-      render json: {error: 'user_id cannot be found'}, status: :not_found
+      render json: {error: @user.errors}, status: :not_found
     end
 
   end

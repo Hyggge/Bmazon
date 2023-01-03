@@ -2,6 +2,7 @@ class CommoditiesController < ApplicationController
   before_action :authorize_request
   before_action :check_shop_id, only: [:create, :show_all_for_shop]
   before_action :check_commodity_id , only: [:delete, :update, :show_details, :collect, :cancel_collect]
+  before_action :check_admin_role, only: [:show_all_for_admin]
 
   # [POST] /api/shops/<int:shop_id>/commodities
   def create

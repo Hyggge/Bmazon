@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
   before_action :check_order_id , only: [:close, :pay, :deliver, :confirm, :show_details]
   before_action :check_shop_id , only: [:show_all_for_shop]
   before_action :check_commodity_id , only: [:create]
+  before_action :check_admin_role, only: [:show_all_for_admin]
 
   # [POST] /api/orders
   def create
