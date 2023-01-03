@@ -3,7 +3,7 @@ class ImagesController < ApplicationController
   def create
     @image = Image.create(image: params[:file])
     if @image.save
-      render json: {id: @image.id}, status: :ok
+      render json: {success: true, id: @image.id}, status: :ok
     else
       render json: {error: 'image create error'}, status: :bad_request
     end

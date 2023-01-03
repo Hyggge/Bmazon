@@ -16,7 +16,7 @@ class ShopsController < ApplicationController
       p @current_user
       @shop = @current_user.owning_shops.build(data)
       if @shop.save
-        render json: {success: true}, status: :ok
+        render json: {success: true, id: @shop.id}, status: :ok
       else
         render json: {error: @shop.errors}, status: :bad_request
       end

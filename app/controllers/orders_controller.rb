@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
       end
       @commodity.sale += @order.num
       @commodity.save
-      render json: {success: true}, status: :ok
+      render json: {success: true, id: @order.id}, status: :ok
     else
       render json: {error: @order.errors}, status: :unprocessable_entity
     end

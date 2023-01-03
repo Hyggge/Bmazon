@@ -16,7 +16,7 @@ class StudentsController < ApplicationController
 
     if @student.save
       @current_user.update(:student_id => @student.id)
-      render json: {success: true}, status: :ok
+      render json: {success: true, id: @student.id}, status: :ok
     else
       render json: {error: @student.errors}, status: :unprocessable_entity
     end

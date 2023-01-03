@@ -43,7 +43,7 @@ class CommoditiesController < ApplicationController
       end
     end
 
-    render json: {success: true}, status: :ok
+    render json: {success: true, id: @commodity.id}, status: :ok
   end
 
   # [DELETE] /api/commodities/<int:commodity_id>

@@ -17,7 +17,7 @@ class AuthController < ApplicationController
   def register
     @user = User.new(register_params)
     if @user.save
-      render json: {id: @user.id}, status: :created
+      render json: {success: true , id: @user.id}, status: :created
     else
       render json: {error: @user.errors}, status: :unprocessable_entity
     end

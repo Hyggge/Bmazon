@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
       )
       if @comment.save
         @order.update(status: Order::COMMENTED)
-        render json: {success: true}, status: :ok
+        render json: {success: true, id: @comment.id}, status: :ok
       else
         render json: {error: @comment.errors}, status: :unprocessable_entity
       end
