@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_02_024039) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_03_044945) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -141,6 +141,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_02_024039) do
     t.integer "article_id", null: false
     t.integer "refer_id"
     t.integer "user_id", null: false
+    t.integer "is_deleted"
     t.index ["article_id"], name: "index_replies_on_article_id"
     t.index ["refer_id"], name: "index_replies_on_refer_id"
     t.index ["user_id"], name: "index_replies_on_user_id"
