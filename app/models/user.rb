@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
 
+  # choices of `role`
+  NORMAL_ROLE = 0
+  ADMIN_ROLE = 1
+
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true,
             length: { minimum: 6 },

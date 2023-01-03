@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   put '/api/users/:user_id', to: 'users#update'
   get '/api/admin/users', to: 'users#show_all_for_admin'
 
-  # 学生相关接口
+  # 学生认证相关接口
   post '/api/students', to: 'students#certificate'
   get '/api/students/student_id', to: 'students#check_student_id'
   get '/api/admin/students', to: 'students#show_all_for_admin'
@@ -61,5 +61,14 @@ Rails.application.routes.draw do
   post '/api/orders/:order_id/comments', to: 'comments#create'
   get '/api/comments/:comment_id', to: 'comments#show_details'
   get '/api/commodities/:commodity_id/comments', to: 'comments#show_all_for_commodity'
+
+  # 文章相关接口
+  post '/api/articles', to: 'articles#create'
+  put '/api/articles/:article_id', to: 'articles#update'
+  delete '/api/articles/:article_id', to: 'articles#delete'
+  get '/api/articles/:article_id', to: 'articles#show_details'
+  get '/api/articles', to: 'articles#show_all_for_user'
+
+
 
 end
