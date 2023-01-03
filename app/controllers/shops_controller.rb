@@ -173,8 +173,10 @@ class ShopsController < ApplicationController
     cnt = 0
     shop.commodities.each do |commodity|
       commodity.orders.each do |order|
-        sum += order.comment.grade
-        cnt += 1
+        if order.status == Order::COMMENTED
+          sum += order.comment.grade
+          cnt += 1
+        end
       end
     end
     sum / cnt
