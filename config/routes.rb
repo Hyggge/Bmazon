@@ -46,7 +46,6 @@ Rails.application.routes.draw do
   get '/api/commodities/collect/list', to: 'commodities#show_collected'
   get '/api/admin/commodities', to: 'commodities#show_all_for_admin'
 
-
   # 订单相关接口
   post '/api/orders', to: 'orders#create'
   post '/api/orders/:order_id/close', to: 'orders#close'
@@ -57,5 +56,10 @@ Rails.application.routes.draw do
   get '/api/user/orders/', to: 'orders#show_all_for_user'
   get '/api/shops/:shop_id/orders', to: 'orders#show_all_for_shop'
   get '/api/admin/orders', to: 'orders#show_all_for_admin'
+
+  # 评论相关接口
+  post '/api/orders/:order_id/comments', to: 'comments#create'
+  get '/api/comments/:comment_id', to: 'comments#show_details'
+  get '/api/commodities/:commodity_id/comments', to: 'comments#show_all_for_commodity'
 
 end
