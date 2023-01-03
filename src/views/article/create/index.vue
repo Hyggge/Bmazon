@@ -63,12 +63,12 @@ export default {
      * 增加图片
      */
     async imgAdd (pos, file) {
-      const res = await api.UPLOAD_FILE(file)
+      const res = await api.UPLOAD_IMAGE(file)
       console.log(res)
       const imageId = res.id
       console.log(imageId)
       // 直接向服务器发起请求返回的是临时链接
-      // const ret = await api.DOWNLOAD_FILE(imageId)
+      // const ret = await api.DOWNLOAD_IMAGE(imageId)
       // const imageUrl = ret.url
       // console.log(imageUrl)
       // 改用拼接而成的永久连接

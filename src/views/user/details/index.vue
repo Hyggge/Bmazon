@@ -417,7 +417,7 @@ export default {
      */
     async handleUploadSuccess (res, file) {
       await api.SET_USER_HEAD_IMG(res.id)
-      this.$store.state.d2admin.user.info.headImg = await api.DOWNLOAD_FILE(res.id)
+      this.$store.state.d2admin.user.info.headImg = await api.DOWNLOAD_IMAGE(res.id)
       this.$Message.success('上传成功！')
       this.getUserInfo()
     },

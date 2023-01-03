@@ -1,33 +1,25 @@
 
 export default ({ service, request, serviceForMock, requestForMock, mock, faker, tools }) => ({
 
-  GET_USER_LIST (params) {
+  GET_USER_LIST_FOR_ADMIN (params) {
     // 接口请求
     return request({
-      url: 'admin/user/list',
+      url: '/admin/users',
       method: 'get',
       params: params
     })
   },
 
-  GET_USER_INFO (id) {
+  GET_USER_INFO (userId) {
     return request({
-      url: `user/${id}`,
+      url: `/users/${userId}`,
       method: 'get'
-    })
-  },
-
-  GET_USER_CSV () {
-    return request({
-      url: 'admin/user/list_csv',
-      method: 'get',
-      params: { bom: true }
     })
   },
 
   UPDATE_USER_INFO (userId, data) {
     return request({
-      url: `/user/${userId}`,
+      url: `/users/${userId}`,
       method: 'put',
       data
     })

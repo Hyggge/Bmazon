@@ -3,7 +3,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   CREATE_REPLY (articleId, data) {
     return request({
-      url: `/reply/article/${articleId}`,
+      url: `/articles/${articleId}/replies`,
       method: 'post',
       data
     })
@@ -11,7 +11,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   MODIFY_REPLY (articleId, data) {
     return request({
-      url: `/reply/${articleId}`,
+      url: `/replies/${articleId}`,
       method: 'put',
       data
     })
@@ -19,14 +19,14 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   DELETE_REPLY (articleId) {
     return request({
-      url: `/reply/${articleId}`,
+      url: `/replies/${articleId}`,
       method: 'delete'
     })
   },
 
   GET_REPLY_LIST (articleId) {
     return request({
-      url: `/reply/article/${articleId}`,
+      url: `/articles/${articleId}/replies`,
       method: 'get'
     })
   }

@@ -2,11 +2,11 @@ import util from '@/libs/util.js'
 
 export default ({ service, request, serviceForMock, requestForMock, mock, faker, tools }) => ({
 
-  UPLOAD_FILE (file) {
+  UPLOAD_IMAGE (file) {
     const formData = new FormData()
     formData.append('file', file)
     return request({
-      url: '/file/upload',
+      url: '/images',
       method: 'post',
       data: formData,
       headers: {
@@ -16,23 +16,23 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
     })
   },
 
-  DOWNLOAD_FILE (fileId) {
+  DOWNLOAD_IMAGE (fileId) {
     return request({
-      url: `/file/url/${fileId}`,
+      url: `/images/${fileId}/url`,
       method: 'get'
     })
   },
 
   SET_USER_HEAD_IMG (imgId) {
     return request({
-      url: `/image/user/${imgId}`,
+      url: `/images/${imgId}/set_user_image`,
       method: 'post'
     })
   },
 
   SET_SHOP_IMG (imgId, shopId) {
     return request({
-      url: `/image/shop/${imgId}`,
+      url: `/images/${imgId}/set_shop_image`,
       method: 'post',
       data: { shop_id: shopId }
     })

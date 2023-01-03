@@ -3,7 +3,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   ADD_COMMODITY (shopId, data) {
     return request({
-      url: `shop/comm/add/${shopId}`,
+      url: `/shops/${shopId}/commodities`,
       method: 'post',
       data
     })
@@ -11,101 +11,69 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   DELETE_COMMODITY (commodityId) {
     return request({
-      url: `comm/${commodityId}`,
+      url: `/commodities/${commodityId}`,
       method: 'delete'
     })
   },
 
-  GET_COMMODITY_DETIALS (commodityId) {
+  GET_COMMODITY_DETAILS (commodityId) {
     return request({
-      url: `comm/${commodityId}`,
+      url: `/commodities/${commodityId}`,
       method: 'get'
     })
   },
 
   UPDATE_COMMODITY_DETAILS (commodityId, data) {
     return request({
-      url: `comm/${commodityId}`,
+      url: `/commodities/${commodityId}`,
       method: 'put',
       data
     })
   },
 
-  DELETE_COMMODITY_PARAM (paramId) {
+  GET_COMMODITY_LIST_FOR_USER (params) {
     return request({
-      url: `comm/para/${paramId}`,
-      method: 'delete'
+      url: '/commodities',
+      method: 'get',
+      params
     })
   },
 
-  UPDATE_COMMODITY_PARAM (paramId, data) {
+  GET_COMMODITY_LIST_FOR_SHOP (shopId, params) {
     return request({
-      url: `comm/para/${paramId}`,
-      method: 'put',
-      data
+      url: `/shops/${shopId}/commodities`,
+      method: 'get',
+      params
     })
   },
 
-  ADD_COMMODITY_PARAM (paramId, data) {
+  GET_COMMODITY_LIST_FOR_ADMIN (params) {
     return request({
-      url: `comm/para/add_to_para_set/${paramId}`,
-      method: 'post',
-      data
-    })
-  },
-
-  DELETE_COMMODITY_PARAM_GROUP (paramGroupId) {
-    return request({
-      url: `comm/para_set/${paramGroupId}`,
-      method: 'delete'
-    })
-  },
-
-  UPDATE_COMMODITY_PARAM_GROUP (paramGroupId, data) {
-    return request({
-      url: `comm/para_set/${paramGroupId}`,
-      method: 'put',
-      data
-    })
-  },
-
-  ADD_COMMODITY_PARAM_GROUP (paramGroupId, data) {
-    return request({
-      url: `comm/para_set/${paramGroupId}`,
-      method: 'post',
-      data
-    })
-  },
-
-  GET_COMMODITY_LIST_FOR_USER (page, data) {
-    return request({
-      url: 'comm/list',
-      method: 'post',
-      params: { page, page_size: 12 },
-      data
-    })
-  },
-
-  GET_COMMODITY_LIST_FOR_SHOP (shopId, page, data) {
-    return request({
-      url: `shop/comm/list/${shopId}`,
-      method: 'post',
-      params: { page, page_size: 9999 },
-      data
+      url: '/admin/commodities',
+      method: 'get',
+      params
     })
   },
 
   COLLECT_COMMODITY (commodityId) {
     return request({
-      url: `/api/commodity/collect/${commodityId}`,
+      url: `/commodities/${commodityId}/collect`,
       method: 'post'
     })
   },
 
   CANCEL_COLLECT_COMMODITY (commodityId) {
     return request({
-      url: `/api/commodity/cancel_collect/${commodityId}`,
+      url: `/commodities/${commodityId}/cancel_collect`,
       method: 'post'
+    })
+  },
+
+  GET_COLLECTED_COMMODITY_LIST (params) {
+    return request({
+      url: '/commodities/collect/list',
+      method: 'get',
+      params
     })
   }
 

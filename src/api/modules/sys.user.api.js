@@ -4,7 +4,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
   USER_LOGIN (data = {}) {
     // 接口请求
     return request({
-      url: 'auth/login',
+      url: '/auth/login',
       method: 'post',
       data
     })
@@ -12,7 +12,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   USER_REGISTER (data = {}) {
     return request({
-      url: 'auth/register',
+      url: '/auth/register',
       method: 'post',
       data
     })
@@ -20,12 +20,8 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   CHECK_DUP_USERNAME (username) {
     return request({
-      url: `/auth/check_username/${username}`,
+      url: `/auth/check_dup_username/${username}`,
       method: 'get'
     })
-  },
-
-  BATCH_REGISTER () {
-
   }
 })

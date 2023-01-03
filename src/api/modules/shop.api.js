@@ -3,7 +3,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
   GET_SHOP_LIST (params) {
     // 接口请求
     return request({
-      url: 'admin/shop/list',
+      url: '/admin/shops',
       method: 'get',
       params: params
     })
@@ -11,21 +11,21 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   GET_USER_SHOP_LIST (userId) {
     return request({
-      url: `shop/user_shop/${userId}`,
+      url: `/users/${userId}/shops`,
       method: 'get'
     })
   },
 
   GET_SHOP_DETAILS (shopId) {
     return request({
-      url: `shop/${shopId}`,
+      url: `/shops/${shopId}`,
       method: 'get'
     })
   },
 
   DELETE_SHOP_ADMIN (shopId, studentId) {
     return request({
-      url: `shop/shop_admin/${shopId}`,
+      url: `/shops/${shopId}/managers`,
       method: 'delete',
       data: { student_id: studentId }
     })
@@ -33,7 +33,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   ADD_SHOP_ADMIN (shopId, studentId) {
     return request({
-      url: `shop/shop_admin/${shopId}`,
+      url: `/shops/${shopId}/managers`,
       method: 'post',
       data: { student_id: studentId }
     })
@@ -41,7 +41,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   CREATE_NEW_SHOP (data) {
     return request({
-      url: 'shop/register',
+      url: '/shops',
       method: 'post',
       data
     })
