@@ -5,6 +5,11 @@ class StudentsController < ApplicationController
 
   # [POST] /api/students
   def certificate
+    if Student.find_by(id: params[:student_id])
+      render json: {error: "the student id has been authenticated"}
+      return
+    end
+
     data = {
       id: params[:student_id],
       name: params[:student_name],
@@ -13,8 +18,8 @@ class StudentsController < ApplicationController
       attendance_year: params[:attendance_year],
       image_id: params[:image_id],
     }
-    @student = Student.create(data)
 
+    @student = Student.create(data)
     if @student.save
       @current_user.update(:student_id => @student.id)
       render json: {success: true, id: @student.id}, status: :ok
