@@ -96,7 +96,7 @@ class CommoditiesController < ApplicationController
       param.options.each do |option|
         option_list << {
           description: option.description,
-          add: option.description
+          add: option.add.to_f
         }
       end
       # 构造完整的param信息，加入到param_list中
@@ -250,15 +250,23 @@ class CommoditiesController < ApplicationController
   # [POST] /api/commodities/<int:commodity_id>/collect
   def collect
     @commodity = Commodity.find_by(id: params[:commodity_id])
-    @current_user.collecting_commodities << @commodity
-    render json: {success: true}, status: :ok
+    if @current_user.collecting_commodities.include?(@commodity)
+      render json: {error: "you have collected this commodity"}, status: :bad_request
+    else
+      @current_user.collecting_commodities << @commodity
+      render json: {success: true}, status: :ok
+    end
   end
 
   # [POST] /api/commodities/<int:commodity_id>/cancel_collect
   def cancel_collect
     @commodity = Commodity.find_by(id: params[:commodity_id])
-    @current_user.collecting_commodities.delete(@commodity)
-    render json: {success: true}, status: :ok
+    if @current_user.collecting_commodities.include?(@commodity)
+      @current_user.collecting_commodities.delete(@commodity)
+      render json: {success: true}, status: :ok
+    else
+      render json: {error: "you did not collect this commodity"}, status: :bad_request
+    end
   end
 
   # [GET] /api/commodities/collect/list
