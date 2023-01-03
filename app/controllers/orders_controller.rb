@@ -7,6 +7,7 @@ class OrdersController < ApplicationController
     @commodity = Commodity.find_by(id: params[:commodity_id])
     if @commodity.total < @commodity.sale + params[:num].to_i
       render json: {error: "not enough commodities"}, status: :bad_request
+      return
     end
 
     data = {
@@ -25,6 +26,8 @@ class OrdersController < ApplicationController
         @option = Option.find_by(id: option_id)
         @order.options << @option
       end
+      @commodity.sale += @order.num
+      @commodity.save
       render json: {success: true}, status: :ok
     else
       render json: {error: @order.errors}, status: :unprocessable_entity
@@ -38,12 +41,14 @@ class OrdersController < ApplicationController
     @commodity = @order.commodity
     @user = @order.user
 
-    if @order != Order::CREATED
+    if @order.status != Order::CREATED
       render json: {error: "order operation sequence error"}, status: :bad_request
     elsif @current_user != @user
       render json: {error: "you don't have permission to close the order"}, status: :bad_request
     else
       @order.update(status: Order::CLOSED, close_time: Time.now)
+      @commodity.sale -= @order.num
+      @commodity.save
       render json: {success: true}, status: :ok
     end
 
