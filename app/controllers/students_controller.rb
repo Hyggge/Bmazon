@@ -42,7 +42,7 @@ class StudentsController < ApplicationController
   # [GET] /api/admin/students
   def show_all_for_admin
     page = params[:page].to_i
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     cnt = 0
 
     data = []

@@ -136,7 +136,7 @@ class ShopsController < ApplicationController
   # [GET] /api/admin/shops
   def show_all_for_admin
     page = params[:page].to_i
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
 
     data = []

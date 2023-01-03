@@ -328,7 +328,8 @@
 
 ##### Query
 
-- 必要参数：page（page_size默认为10）
+- 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -432,7 +433,8 @@
 
 ##### Query
 
-- 必要参数：page（page_size默认为10）
+- 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -645,7 +647,8 @@
 
 ##### Query
 
-- 必要参数 page（page_size默认为10）
+- 必要参数 page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -886,6 +889,7 @@
 ##### Query
 
 - 必要参数：page
+- 可选参数：page_size（默认为12）
 - 必要字段：keyword
 
 ##### Response
@@ -945,6 +949,7 @@
 ##### Query
 
 - 必要参数：page
+- 可选参数：page_size（默认为10）
 - 必要字段：keyword
 
 ##### Response
@@ -992,6 +997,7 @@
 ##### Param
 
 - 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -1092,6 +1098,7 @@
 ##### Param
 
 - 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -1311,7 +1318,8 @@ order_id 为订单 id
 
 ##### Query
 
-- 必要参数：page（默认page_size为10）
+- 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -1368,6 +1376,7 @@ order_id 为订单 id
 ##### Query
 
 - 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -1421,7 +1430,8 @@ order_id 为订单 id
 
 ##### Query
 
-- 必要参数：page（默认page_size为10）
+- 必要参数：page
+- 可选参数：page_size（默认为10）
 
 ##### Response
 
@@ -1717,6 +1727,7 @@ order_id 为订单 id
 ##### Query
 
 - 必要参数：page
+- 可选参数：page_size（默认为12）
 - 必要参数：keyword
 
 ##### Response

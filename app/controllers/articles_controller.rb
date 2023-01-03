@@ -91,7 +91,7 @@ class ArticlesController < ApplicationController
   def show_all_for_user
     page = params[:page].to_i
     keyword = params[:keyword]
-    page_size = 12
+    page_size = params[:page_size] ? params[:page_size].to_i : 12
     tot_count = 0
 
     data = []

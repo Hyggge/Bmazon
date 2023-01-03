@@ -156,7 +156,7 @@ class OrdersController < ApplicationController
   # [GET] /api/user/orders
   def show_all_for_user
     page = params[:page].to_i
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
     data = []
     p @current_user.orders
@@ -194,7 +194,7 @@ class OrdersController < ApplicationController
   # [GET] /api/shops/<shop_id>/orders
   def show_all_for_shop
     page = params[:page].to_i
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
     data = []
 
@@ -238,7 +238,7 @@ class OrdersController < ApplicationController
   # [GET] /api/admin/orders
   def show_all_for_admin
     page = params[:page].to_i
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
     data = []
 

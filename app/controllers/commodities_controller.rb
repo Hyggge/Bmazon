@@ -127,7 +127,7 @@ class CommoditiesController < ApplicationController
   def show_all_for_user
     page = params[:page].to_i
     keyword = params[:keyword]
-    page_size = 12
+    page_size = params[:page_size] ? params[:page_size].to_i : 12
     tot_count = 0
 
     data = []
@@ -175,7 +175,7 @@ class CommoditiesController < ApplicationController
 
     page = params[:page].to_i
     keyword = params[:keyword]
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
 
     data = []
@@ -211,7 +211,7 @@ class CommoditiesController < ApplicationController
   # [GET] /api/admin/commodities
   def show_all_for_admin
     page = params[:page].to_i
-    page_size = 10
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
 
     data = []
@@ -272,7 +272,7 @@ class CommoditiesController < ApplicationController
   # [GET] /api/commodities/collect/list
   def show_collected
     page = params[:page].to_i
-    page_size = 12
+    page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
 
     data = []
