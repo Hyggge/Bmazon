@@ -12,9 +12,9 @@ Rails.application.routes.draw do
   # 图片相关接口
   post '/api/images', to: 'images#create'
   get '/api/images/:image_id/url', to: 'images#get_image_url'
-  post '/api/images/<int:image_id>/set_user_image', to: 'images#set_user_image'
-  post '/api/images/<int:image_id>/set_shop_image', to: 'images#set_shop_image'
-  post '/api/images/<int:image_id>/set_commodity_image', to: 'images#set_commodity_image'
+  post '/api/images/:image_id/set_user_image', to: 'images#set_user_image'
+  post '/api/images/:image_id/set_shop_image', to: 'images#set_shop_image'
+  post '/api/images/:image_id/set_commodity_image', to: 'images#set_commodity_image'
 
   # 用户相关接口
   get '/api/users/:user_id', to: 'users#show_details'
@@ -69,6 +69,11 @@ Rails.application.routes.draw do
   get '/api/articles/:article_id', to: 'articles#show_details'
   get '/api/articles', to: 'articles#show_all_for_user'
 
+  # 回复相关接口
+  post '/api/articles/:article_id/replies', to: 'replies#create'
+  delete '/api/replies/:reply_id', to: 'replies#delete'
+  put '/api/replies/:reply_id', to: 'replies#update'
+  get '/api/articles/:article_id/replies', to: 'replies#show_all_for_article'
 
 
 end

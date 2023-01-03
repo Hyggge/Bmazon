@@ -13,7 +13,7 @@ class CommoditiesController < ApplicationController
       status: params[:status],
       method: params[:method],
       introduction: params[:introduction],
-      image_id: params[:image_id],
+      image_id: params[:image_id][0],
       sale: 0
     }
     # 创建commodity，并且和shop建立联系
