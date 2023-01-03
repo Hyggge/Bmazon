@@ -2,8 +2,8 @@ class User < ApplicationRecord
   has_secure_password
 
   # choices of `role`
-  NORMAL_ROLE = 0
-  ADMIN_ROLE = 1
+  NORMAL_ROLE = 1
+  ADMIN_ROLE = 0
 
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true,

@@ -22,7 +22,7 @@ class StudentsController < ApplicationController
     end
   end
 
-  # [GET] /api/students/<int:student_id>
+  # [GET] /api/students/<int:student_id>/check_dup_student_id
   def check_dup_student_id
     @student = Student.find_by(id: params[:student_id])
     if @student

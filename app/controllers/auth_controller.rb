@@ -6,10 +6,12 @@ class AuthController < ApplicationController
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
       time = Time.now + 24.hours.to_i
-      render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
-                     username: @user.username }, status: :ok
+      render json: { token: token, ddl: time.strftime("%m-%d-%Y %H:%M"),
+                     role: @user.role }, status: :ok
+    elsif @user == nil
+      render json: { error: "用户名不存在"}, status: :unauthorized
     else
-      render json: { error: 'unauthorized' }, status: :unauthorized
+      render json: { error: "密码错误" }, status: :unauthorized
     end
   end
 
@@ -23,7 +25,7 @@ class AuthController < ApplicationController
     end
   end
 
-  # [GET] /api/auth/check_username/<str:username>
+  # [GET] /api/auth/check_dup_username/<str:username>
   def check_dup_username
     @user = User.find_by_username(params[:username])
     if @user
@@ -43,7 +45,7 @@ class AuthController < ApplicationController
 
   def register_params
     data = params.permit(:username, :password, :email, :signature, :phone_no)
-    data[:role] = 0
+    data[:role] = User::NORMAL_ROLE
     data
   end
 
