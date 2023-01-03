@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # 登录注册相关API
   post '/api/auth/login', to: 'auth#login'
   post '/api/auth/register', to: 'auth#register'
-  get '/api/auth/check_username/:username', to: 'auth#check_username'
+  get '/api/auth/check_dup_username/:username', to: 'auth#check_dup_username'
 
   # 图片相关接口
   post '/api/images', to: 'images#create'
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   # 学生认证相关接口
   post '/api/students', to: 'students#certificate'
-  get '/api/students/student_id', to: 'students#check_student_id'
+  get '/api/students/:student_id/check_dup_student_id', to: 'students#check_dup_student_id'
   get '/api/admin/students', to: 'students#show_all_for_admin'
 
   # 店铺相关接口
@@ -37,14 +37,14 @@ Rails.application.routes.draw do
   # 商品相关接口
   post '/api/shops/:shop_id/commodities', to: 'commodities#create'
   delete '/api/commodities/:commodity_id', to: 'commodities#delete'
-  get '/api/commodities/:commodity_id', to: 'commodities#show_details'
   put '/api/commodities/:commodity_id', to: 'commodities#update'
+  get '/api/commodities/:commodity_id', to: 'commodities#show_details'
   get '/api/commodities', to: 'commodities#show_all_for_user'
   get '/api/shops/:shop_id/commodities', to: 'commodities#show_all_for_shop'
+  get '/api/admin/commodities', to: 'commodities#show_all_for_admin'
   post '/api/commodities/:commodity_id/collect', to: 'commodities#collect'
   post '/api/commodities/:commodity_id/cancel_collect', to: 'commodities#cancel_collect'
   get '/api/commodities/collect/list', to: 'commodities#show_collected'
-  get '/api/admin/commodities', to: 'commodities#show_all_for_admin'
 
   # 订单相关接口
   post '/api/orders', to: 'orders#create'

@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :authorize_request
+  before_action :check_user_id, only: [:show_details, :update]
+
   # [GET] /api/users/<int:user_id>
   def show_details
     @user = User.find_by(id: params[:user_id])

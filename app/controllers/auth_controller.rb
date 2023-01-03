@@ -24,7 +24,7 @@ class AuthController < ApplicationController
   end
 
   # [GET] /api/auth/check_username/<str:username>
-  def check_username
+  def check_dup_username
     @user = User.find_by_username(params[:username])
     if @user
       render json: {exist: true }, status: :ok

@@ -1,5 +1,7 @@
 class CommoditiesController < ApplicationController
   before_action :authorize_request
+  before_action :check_shop_id, only: [:create, :show_all_for_shop]
+  before_action :check_commodity_id , only: [:delete, :update, :show_details, :collect, :cancel_collect]
 
   # [POST] /api/shops/<int:shop_id>/commodities
   def create
@@ -60,6 +62,18 @@ class CommoditiesController < ApplicationController
     end
   end
 
+  # [PUT] /api/commodities/<int:commodity_id>
+  def update
+    @commodity = Commodity.find_by(id: params[:commodity_id])
+    if @commodity.shop.owner != @current_user && ! @commodity.shop.managers.include?(@current_user)
+      render json: {error: "you don't have update permission"}, status: :bad_request
+    elsif @commodity.update(status: params[:status])
+      render json: {success: true}, status: :ok
+    else
+      render json: {error: @commodity.errors}, status: :bad_request
+    end
+  end
+
   # [GET] /api/commodities/<int:commodity_id>
   def show_details
     @commodity = Commodity.find_by(id: params[:commodity_id])
@@ -106,18 +120,6 @@ class CommoditiesController < ApplicationController
     }
 
     render json: res, status: :ok
-  end
-
-  # [PUT] /api/commodities/<int:commodity_id>
-  def update
-    @commodity = Commodity.find_by(id: params[:commodity_id])
-    if @commodity.shop.owner != @current_user && ! @commodity.shop.managers.include?(@current_user)
-      render json: {error: "you don't have update permission"}, status: :bad_request
-    elsif @commodity.update(status: params[:status])
-      render json: {success: true}, status: :ok
-    else
-      render json: {error: @commodity.errors}, status: :bad_request
-    end
   end
 
   # [GET] /api/commodities

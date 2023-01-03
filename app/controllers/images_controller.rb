@@ -1,6 +1,8 @@
 class ImagesController < ApplicationController
   before_action :authorize_request
-
+  before_action :check_image_id , only: [:get_image_url, :set_user_image, :set_shop_image, :set_commodity_image]
+  before_action :check_shop_id , only: [:set_shop_image]
+  before_action :check_commodity_id , only: [:set_commodity_image]
 
   # [POST] /api/images
   def create

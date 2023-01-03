@@ -1,5 +1,7 @@
 class RepliesController < ApplicationController
   before_action :authorize_request
+  before_action :check_article_id , only: [:create, :show_all_for_article]
+  before_action :check_reply_id , only: [:update, :delete]
 
   # [POST] /api/articles/<int:article_id>/replies
   def create

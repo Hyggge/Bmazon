@@ -1,6 +1,6 @@
 class StudentsController < ApplicationController
   before_action :authorize_request
-
+  before_action :check_student_id, only: [:check_dup_student_id]
 
   # [POST] /api/students
   def certificate
@@ -23,7 +23,7 @@ class StudentsController < ApplicationController
   end
 
   # [GET] /api/students/<int:student_id>
-  def check_student_id
+  def check_dup_student_id
     @student = Student.find_by(id: params[:student_id])
     if @student
       render json: {exist: true }, status: :ok

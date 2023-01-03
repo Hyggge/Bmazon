@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :authorize_request
+  before_action :check_article_id, only: [:update, :delete, :show_details]
 
   # [POST] /api/articles
   def create

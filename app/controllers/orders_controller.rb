@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   before_action :authorize_request
-
+  before_action :check_order_id , only: [:close, :pay, :deliver, :confirm, :show_details]
+  before_action :check_shop_id , only: [:show_all_for_shop]
+  before_action :check_commodity_id , only: [:create]
 
   # [POST] /api/orders
   def create

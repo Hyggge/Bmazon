@@ -1,6 +1,8 @@
 class ShopsController < ApplicationController
   before_action :authorize_request
-  # before_action
+  before_action :check_shop_id , only: [:add_manager, :delete_manager, :show_details]
+  before_action :check_student_id , only: [:add_manager, :delete_manager]
+  before_action :check_user_id , only: [:show_owning_and_managing_shops]
 
 
   # [POST] /api/shops

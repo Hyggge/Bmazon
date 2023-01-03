@@ -1,5 +1,8 @@
 class CommentsController < ApplicationController
   before_action :authorize_request
+  before_action :check_order_id, only: [:create]
+  before_action :check_comment_id, only: [:show_details]
+  before_action :check_commodity_id, only: [:show_all_for_commodity]
 
   # [POST] /api/orders/<int:order_id>/comments
   def create
