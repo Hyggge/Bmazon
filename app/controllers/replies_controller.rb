@@ -61,8 +61,11 @@ class RepliesController < ApplicationController
 
   # [GET] /api/articles/<int:article_id>/replies
   def show_all_for_article
-    data = []
     @article = Article.find_by(id: params[:article_id])
+    data = []
+    tot_count = 0
+
+
     @article.replies.each do |reply|
       user = reply.user
       data << {
@@ -80,9 +83,10 @@ class RepliesController < ApplicationController
           floor: reply.referring_reply.floor
         }
       }
+      tot_count += 1
     end
 
-    render json: {data: data}, status: :ok
+    render json: {tot_count: tot_count, data: data}, status: :ok
 
   end
 
