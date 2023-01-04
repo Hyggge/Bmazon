@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
   before_action :authorize_request
+  before_action :check_student_id, only: [:show_details]
   before_action :check_admin_role, only: [:show_all_for_admin]
 
   # [POST] /api/students
@@ -37,6 +38,20 @@ class StudentsController < ApplicationController
     end
   end
 
+  # [GET] /api/students/:student_id
+  def show_details
+    @student = Student.find_by(id: params[:student_id])
+    res = {
+      student_id: @student.id,
+      student_name: @student.name,
+      gender: @student.gender,
+      depart: @student.depart,
+      attendance_year: @student.attendance_year,
+      image_url: @student.image.url
+    }
+    render json: res, status: :ok
+  end
+
 
   # [GET] /api/admin/students
   def show_all_for_admin
@@ -54,6 +69,7 @@ class StudentsController < ApplicationController
         username: user.username,
         student_id: student.id,
         student_name: student.name,
+        depart: student.depart,
         req_time: student.created_at
       }
     end

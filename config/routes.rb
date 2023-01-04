@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   # 学生认证相关接口
   post '/api/students', to: 'students#certificate'
   get '/api/students/:student_id/check_dup_student_id', to: 'students#check_dup_student_id'
+  get '/api/students/:student_id', to: 'students#show_details'
   get '/api/admin/students', to: 'students#show_all_for_admin'
 
   # 店铺相关接口

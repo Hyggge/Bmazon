@@ -429,7 +429,34 @@
 
 
 
-#### 3. 管理员获取全部学生认证信息
+#### 3. 获得学生认证详情
+
+##### `[GET] /api/students/:student_id`
+
+##### Param
+
+- student_id 为要检查的学号
+
+##### Response
+
+- 成功则返回下面的内容，包括student_id（学号），student_name（姓名），gender（性别），depart（院系），attendance_year（入学年份），image_url（学生证件图）
+
+  ```json
+  {
+  	"student_id": 20373379,
+  	"student_name": "陈正昊",
+  	"gender": 0,
+  	"depart": 6,
+  	"attendance_year": 2022,
+  	"image_url": "http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--f9be98befd8ef27ad3c8bb33f7f57380aabd2200/%E5%BD%95%E5%8F%96%E9%80%9A%E7%9F%A5%E4%B9%A6.jpg"
+  }
+  ```
+
+  
+
+
+
+#### 4. 管理员获取全部学生认证信息
 
 ##### `[GET] /api/admin/students`
 
@@ -1605,7 +1632,7 @@ order_id 为订单 id
 		{
 			"id": 1,
 			"username": "czh",
-            "user_image_url": "..."
+            "user_image_url": "...",
 			"grade": 5,
 			"content": "很好",
 			"comment_time": "2023-01-03T10:27:59.249+08:00",
