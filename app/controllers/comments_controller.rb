@@ -71,6 +71,7 @@ class CommentsController < ApplicationController
       data << {
         id: comment.id,
         username: order.user.username,
+        user_image_url: order.user.image == nil ? nil : order.user.image.url,
         grade: comment.grade,
         content: comment.content,
         comment_time: comment.created_at,

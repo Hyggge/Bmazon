@@ -1605,6 +1605,7 @@ order_id 为订单 id
 		{
 			"id": 1,
 			"username": "czh",
+            "user_image_url": "..."
 			"grade": 5,
 			"content": "很好",
 			"comment_time": "2023-01-03T10:27:59.249+08:00",
