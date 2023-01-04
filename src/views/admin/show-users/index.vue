@@ -8,21 +8,21 @@
         </el-col>
       </el-row>
 
-      <el-row>
-        <el-col :span="3" :offset="21" style="text-align: right">
-          <el-tooltip class="item" effect="dark" content="上传文件应为csv格式，表头属性依次为username，password，nickname，email" placement="left">
-            <el-upload
-              class="upload-demo"
-              :headers="{Authorization: 'Bearer ' + token}"
-              :on-success="handleUploadSuccess"
-              :on-error="handleUploadError"
-              :show-file-list="false"
-              action="/api/auth/batch/register">
-              <el-button size="mini"  type="success">批量创建用户</el-button>
-            </el-upload>
-          </el-tooltip>
-        </el-col>
-      </el-row>
+      <!--<el-row>-->
+      <!--  <el-col :span="3" :offset="21" style="text-align: right">-->
+      <!--    <el-tooltip class="item" effect="dark" content="上传文件应为csv格式，表头属性依次为username，password，phone_no，email" placement="left">-->
+      <!--      <el-upload-->
+      <!--        class="upload-demo"-->
+      <!--        :headers="{Authorization: 'Bearer ' + token}"-->
+      <!--        :on-success="handleUploadSuccess"-->
+      <!--        :on-error="handleUploadError"-->
+      <!--        :show-file-list="false"-->
+      <!--        action="/api/auth/batch/register">-->
+      <!--        <el-button size="mini"  type="success">批量创建用户</el-button>-->
+      <!--      </el-upload>-->
+      <!--    </el-tooltip>-->
+      <!--  </el-col>-->
+      <!--</el-row>-->
 
     </template>
     <el-table
@@ -68,23 +68,6 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="nickname"
-        label="昵称"
-        align="center"
-        width="180">
-        <template v-slot="scope">
-          <div v-if="scope.$index === 0">
-            <el-input
-              v-model="queryNickname"
-              size="small"
-              placeholder="查询昵称"
-              @change="queryUsersByNickname"
-            />
-          </div>
-          <div v-else>{{ (scope.row.nickname) }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
         prop="email"
         label="邮箱"
         align="center"
@@ -99,6 +82,23 @@
             />
           </div>
           <div v-else>{{ (scope.row.email) }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="phone_no"
+        label="手机号"
+        align="center"
+        width="180">
+        <template v-slot="scope">
+          <div v-if="scope.$index === 0">
+            <el-input
+              v-model="queryPhoneNo"
+              size="small"
+              placeholder="查询手机号"
+              @change="queryUsersByPhoneNo"
+            />
+          </div>
+          <div v-else>{{ (scope.row.phone_no) }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -148,7 +148,7 @@ export default {
       // 用户输入的查询参数
       queryId: '',
       queryUsername: '',
-      queryNickname: '',
+      queryPhoneNo: '',
       queryEmail: '',
       queryRegTime: '',
       // 当前页面
@@ -188,12 +188,12 @@ export default {
         ...this.order_by,
         page: this.currentPage
       }
-      api.GET_USER_LIST(params)
+      api.GET_USER_LIST_FOR_ADMIN(params)
         .then((data) => {
           console.log(data)
           this.tableData = data.data
           this.tableData.unshift({})
-          this.filterTotalCnt = data.filter_count
+          this.filterTotalCnt = data.tot_count
         }).catch((err) => {
           console.log(err.response.data)
         })
@@ -252,11 +252,11 @@ export default {
     /**
      * 根据用户输入的昵称进行查询(部分匹配)
      */
-    queryUsersByNickname () {
-      if (this.queryNickname !== '') {
-        Object.assign(this.filter, { nickname__contains: this.queryNickname })
+    queryUsersByPhoneNo () {
+      if (this.queryPhoneNo !== '') {
+        Object.assign(this.filter, { PhoneNo__contains: this.queryPhoneNo })
       } else {
-        delete this.filter.nickname__contains
+        delete this.filter.PhoneNo__contains
       }
       this.currentPage = 1
       this.queryUsers()
