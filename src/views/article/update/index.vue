@@ -68,7 +68,7 @@ export default {
         const data = {
           title: this.article.title,
           content: this.article.content,
-          commodity: this.article.commodityUrl === '' ? null : parseInt(this.article.commodityUrl.split('/').pop())
+          commodity_id: this.article.commodityUrl === '' ? null : parseInt(this.article.commodityUrl.split('/').pop())
         }
         console.log(data)
         await api.MODIFY_ARTICLE(this.articleId, data)

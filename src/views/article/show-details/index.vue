@@ -3,27 +3,29 @@
     <template v-slot:header>
       <div class="title">{{articleDetails.title}}</div>
       <div class="info">
-        <span class="author">作者: {{articleDetails.user__nickname}}</span>
+        <span class="author">作者: {{articleDetails.author_info.username}}</span>
         <span class="time">发布时间: {{formatTime(articleDetails.post_time)}}</span>
       </div>
       <div class="btn">
-        <el-button v-if="articleDetails.star" circle size="mini"  @click="cancelStar">
-          <img src="../../../assets/img/liked.svg" alt= "" style="width: 10px">
-        </el-button>
-        <el-button v-else  circle size="mini" @click="clickStar">
-          <img src="../../../assets/img/not-liked.svg" alt= "" style="width: 10px">
-        </el-button>
+        <!--点赞-->
+        <!--<el-button v-if="articleDetails.star" circle size="mini"  @click="cancelStar">-->
+        <!--  <img src="../../../assets/img/liked.svg" alt= "" style="width: 10px">-->
+        <!--</el-button>-->
+        <!--<el-button v-else  circle size="mini" @click="clickStar">-->
+        <!--  <img src="../../../assets/img/not-liked.svg" alt= "" style="width: 10px">-->
+        <!--</el-button>-->
 
         <el-button class="link" size="mini" type="danger" @click="showCommodityDetails"> 商品传送门 </el-button>
         <el-button class="link" size="mini" type="primary" @click="copyLink"> 复制文章连接 </el-button>
-        <el-button v-if="auth.id === articleDetails.user_id" class="link" size="mini" type="warning" @click="modifyArticle"> 修改文章 </el-button>
+        <el-button v-if="auth.id === articleDetails.author_info.id" class="link" size="mini" type="warning" @click="modifyArticle"> 修改文章 </el-button>
 
-        <el-button v-if="articleDetails.collect" circle size="mini" @click="cancelCollect">
-          <img src="../../../assets/img/collected.svg" alt= "" style="width: 10px">
-        </el-button>
-        <el-button v-else circle size="mini" @click="clickCollect">
-          <img src="../../../assets/img/not-collected.svg" alt= "" style="width: 10px">
-        </el-button>
+        <!--收藏-->
+        <!--<el-button v-if="articleDetails.collect" circle size="mini" @click="cancelCollect">-->
+        <!--  <img src="../../../assets/img/collected.svg" alt= "" style="width: 10px">-->
+        <!--</el-button>-->
+        <!--<el-button v-else circle size="mini" @click="clickCollect">-->
+        <!--  <img src="../../../assets/img/not-collected.svg" alt= "" style="width: 10px">-->
+        <!--</el-button>-->
       </div>
     </template>
 
@@ -79,10 +81,10 @@ export default {
      * 跳转到商品详情页面
      */
     showCommodityDetails () {
-      if (this.articleDetails.commodity === null) {
+      if (this.articleDetails.commodity_info === null) {
         this.$Message.error('该文章没有关联商品！')
       } else {
-        this.$router.push({ path: `/commodity/show-details/${this.articleDetails.commodity.id}` })
+        this.$router.push({ path: `/commodity/show-details/${this.articleDetails.commodity_info.id}` })
       }
     },
     /**
