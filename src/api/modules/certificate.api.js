@@ -11,15 +11,22 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   GET_USER_CERTIFICATE_LIST_ADMIN (params) {
     return request({
-      url: '//admin/students',
+      url: '/admin/students',
       method: 'get',
       params
     })
   },
 
+  GET_USER_CERTIFICATE_DETAILS (studentId) {
+    return request({
+      url: `/students/${studentId}`,
+      method: 'get'
+    })
+  },
+
   CHECK_DUP_STUDENT_ID (studentId) {
     return request({
-      url: `students/${studentId}/check_dup_student_id`,
+      url: `/students/${studentId}/check_dup_student_id`,
       method: 'get'
     })
   }

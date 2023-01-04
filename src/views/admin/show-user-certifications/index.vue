@@ -1,7 +1,7 @@
 <template>
   <d2-container>
     <template v-slot:header>
-      <h3>用户列表</h3>
+      <h3>学生认证列表</h3>
     </template>
     <el-table
       :data="tableData"
@@ -10,24 +10,6 @@
       highlight-current-row
       @sort-change="handleSortChange"
     >
-      <el-table-column
-        prop="id"
-        label="ID"
-        align="center"
-        sortable="custom"
-        width="100">
-        <template v-slot="scope">
-          <div v-if="scope.$index === 0">
-            <el-input
-              v-model="queryId"
-              size="small"
-              placeholder="查询id"
-              @change="queryReqsById"
-            />
-          </div>
-          <div v-else>{{ (scope.row.id) }}</div>
-        </template>
-      </el-table-column>
       <el-table-column
         prop="user_id"
         label="用户ID"
@@ -59,7 +41,7 @@
               @change="queryReqsByNickName"
             />
           </div>
-          <div v-else>{{ (scope.row.user__nickname) }}</div>
+          <div v-else>{{ (scope.row.username) }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -97,8 +79,27 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="depart"
+        label="院系"
+        align="center"
+        width="180">
+        <template v-slot="scope">
+          <div v-if="scope.$index === 0">
+            <el-select v-model="queryDepart" clearable placeholder="查询院系" size="mini" style="width: 100%" @change="queryReqsByDepart">
+              <el-option
+                v-for="item in departList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+          <div v-else>{{ getDepartNameById(scope.row.depart) }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="req_time"
-        label="注册时间"
+        label="认证时间"
         align="center"
         width="200">
         <template v-slot="scope">
@@ -123,16 +124,17 @@
         width="200">
         <template v-slot="scope">
           <div v-if="scope.$index === 0">
-            <el-select v-model="queryStatus" size="small" clearable placeholder="请选择" @change="queryReqsByStatus">
-              <el-option label="等待审批" value="0"></el-option>
-              <el-option label="审批通过" value="1"></el-option>
-              <el-option label="拒绝审批" value="2"></el-option>
-            </el-select>
+            <!--<el-select v-model="queryStatus" size="small" clearable placeholder="请选择" @change="queryReqsByStatus">-->
+            <!--  <el-option label="等待审批" value="0"></el-option>-->
+            <!--  <el-option label="审批通过" value="1"></el-option>-->
+            <!--  <el-option label="拒绝审批" value="2"></el-option>-->
+            <!--</el-select>-->
           </div>
           <div v-else>
-              <el-button v-if="scope.row.status === 0" type="primary" size="mini" @click="showReqDetails(scope.row.id)">等待审批</el-button>
-              <el-button v-else-if="scope.row.status === 1" type="success" size="mini" @click="showReqDetails(scope.row.id)">审批通过</el-button>
-              <el-button v-else type="danger" size="mini" @click="showReqDetails(scope.row.id)">拒绝审批</el-button>
+              <!--<el-button v-if="scope.row.status === 0" type="primary" size="mini" @click="showReqDetails(scope.row.id)">等待审批</el-button>-->
+              <!--<el-button v-else-if="scope.row.status === 1" type="success" size="mini" @click="showReqDetails(scope.row.id)">审批通过</el-button>-->
+              <!--<el-button v-else type="danger" size="mini" @click="showReqDetails(scope.row.id)">拒绝审批</el-button>-->
+            <el-button type="primary" size="mini" @click="showReqDetails(scope.row.student_id)">查看详情</el-button>
           </div>
         </template>
       </el-table-column>
@@ -217,7 +219,7 @@
 
 <script>
 import api from '@/api'
-import { getDepartNameById } from "@/libs/util.depart";
+import { getDepartNameById, departList } from "@/libs/util.depart";
 import util from '@/libs/util'
 
 export default {
@@ -238,6 +240,7 @@ export default {
       queryStudentId: '',
       queryReqTime: '',
       queryStatus: '',
+      queryDepart: '',
       // 当前页面
       currentPage: 1,
       // 筛选之后的记录总数
@@ -248,36 +251,23 @@ export default {
         order_by: 'id'
       },
       // 服务器返回的数据
-      tableData: [{}]
+      tableData: [{}],
+      // 院系列表
+      departList: departList
     }
   },
   methods: {
     getDepartNameById,
     formatTime: util.time.formatTime,
     /**
-     * 查看审批状态详情并进行审批
+     * 查看审批状态详情
      */
-    showReqDetails (reqId) {
+    showReqDetails (studentId) {
       // alert(reqId)
       this.drawer = true
-      api.GER_USER_CERTIFICATE_REQ_DETAIL_ADMIN(reqId)
+      api.GET_USER_CERTIFICATE_DETAILS(studentId)
         .then((res) => {
           this.reqDetails = res
-          this.reqId = reqId
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    /**
-     * 处理请求
-     */
-    dealReq () {
-      api.DEAL_USER_CERTIFICATE(this.reqId, this.pass, this.comment)
-        .then((res) => {
-          this.queryReqs()
-          this.drawer = false
-          this.$Message.success('处理成功！')
         })
         .catch((err) => {
           console.log(err)
@@ -293,12 +283,12 @@ export default {
         page: this.currentPage
       }
       console.log(params)
-      api.GER_USER_CERTIFICATE_REQ_LIST_ADMIN(params)
+      api.GET_USER_CERTIFICATE_LIST_ADMIN(params)
         .then((data) => {
           console.log(data)
           this.tableData = data.data
           this.tableData.unshift({})
-          this.filterTotalCnt = data.filter_count
+          this.filterTotalCnt = data.tot_count
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -383,6 +373,18 @@ export default {
      * 根据用户输入的学生姓名进行查询(部分匹配)
      */
     queryReqsByStudentName () {
+      if (this.queryStudentName !== '') {
+        Object.assign(this.filter, { student_name__contains: this.queryStudentName })
+      } else {
+        delete this.filter.student_name__contains
+      }
+      this.currentPage = 1
+      this.queryReqs()
+    },
+    /**
+     * 根据用户输入的学生姓名进行查询(部分匹配)
+     */
+    queryReqsByDepart () {
       if (this.queryStudentName !== '') {
         Object.assign(this.filter, { student_name__contains: this.queryStudentName })
       } else {

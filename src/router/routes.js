@@ -128,7 +128,7 @@ const frameIn = [
         path: 'admin/show-user-certifications',
         name: 'show-user-certifications',
         meta: {
-          title: '学生认证请求列表',
+          title: '学生认证列表',
           auth: true
         },
         component: () => import('@/views/admin/show-user-certifications')
