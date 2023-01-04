@@ -67,17 +67,19 @@ class CommentsController < ApplicationController
     tot_count = 0
 
     @commodity.orders.each do |order|
-      comment = order.comment
-      data << {
-        id: comment.id,
-        username: order.user.username,
-        user_image_url: order.user.image == nil ? nil : order.user.image.url,
-        grade: comment.grade,
-        content: comment.content,
-        comment_time: comment.created_at,
-        options: order.options.map { |option| option.description }
-      }
-      tot_count += 1
+      if order.status == Order::COMMENTED
+        comment = order.comment
+        data << {
+          id: comment.id,
+          username: order.user.username,
+          user_image_url: order.user.image == nil ? nil : order.user.image.url,
+          grade: comment.grade,
+          content: comment.content,
+          comment_time: comment.created_at,
+          options: order.options.map { |option| option.description }
+        }
+        tot_count += 1
+      end
     end
     res = {
       tot_count: tot_count,
