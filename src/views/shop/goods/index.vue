@@ -23,7 +23,7 @@
         align="center"
         width="80">
         <template v-slot="scope">
-          <img :src="scope.row.img_url" style="width: 100%; height: 80px">
+          <img :src="scope.row.image_url" style="width: 100%; height: 80px">
         </template>
       </el-table-column>
       <el-table-column
@@ -37,35 +37,6 @@
         label="价格"
         align="center"
         width="120">
-      </el-table-column>
-      <el-table-column
-        prop="discount"
-        label="优惠"
-        align="center"
-        width="120">
-        <template v-slot="scope">
-          {{ scope.row.discount }}
-          <el-popover
-            placement="top-start"
-            title="请输入新的商品折扣"
-            width="200"
-            trigger="click">
-            <el-input v-model="newDiscount" placeholder="请输入0~1之间的两位小数"></el-input>
-            <div style="text-align: center">
-              <el-button size="mini" type="primary" style="margin-top: 10px" @click="changeDiscount(scope.row.id)">提交</el-button>
-            </div>
-            <el-link icon="el-icon-edit" style="margin-left: 3px" slot="reference"></el-link>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="discount"
-        label="折后价格"
-        align="center"
-        width="120">
-        <template v-slot="scope">
-          {{formatPrice(scope.row.price, scope.row.discount, 0)}}
-        </template>
       </el-table-column>
       <el-table-column
         prop="method"
@@ -138,13 +109,28 @@
       </el-table-column>
     </el-table>
 
+
+    <!--分页栏-->
+    <div class="block" style="margin-top: 10px">
+      <el-pagination
+        hi
+        background
+        layout="prev, pager, next,jumper, ->, total, slot"
+        :total="filterTotalCnt"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="10"
+        style="text-align: center">
+      </el-pagination>
+    </div>
+
     <!--抽屉-->
     <el-drawer
       title="商品详情"
       :visible.sync="drawer"
       direction="rtl">
       <!--商品图片-->
-      <img :src="curCommodityDetails.img_url" style="width: 100%" alt="">
+      <img :src="curCommodityDetails.image_url" style="width: 100%" alt="">
       <!--商品介绍-->
       <h3 style="margin-left: 10px">商品介绍</h3><br>
       <div style="margin-bottom: 10px; margin-left: 10px">
@@ -163,19 +149,7 @@
           <template slot="label">
             价格
           </template>
-          {{curCommodityDetails.price}}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            优惠
-          </template>
-          {{curCommodityDetails.discount}}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            折后
-          </template>
-          {{formatPrice(curCommodityDetails.price, curCommodityDetails.discount, 0)}}
+          {{'¥ ' + curCommodityDetails.price}}
         </el-descriptions-item>
         <el-descriptions-item>
           <template slot="label">
@@ -215,15 +189,15 @@
       </el-descriptions>
       <br><br>
       <!--商品具体参数-->
-      <template v-if="curCommodityDetails.parameters !== []">
+      <template v-if="curCommodityDetails.params !== undefined && curCommodityDetails.params.length !== 0">
         <h3 style="margin-left: 10px">商品参数</h3><br>
         <el-descriptions :column="1"  border>
-          <el-descriptions-item v-for="item in curCommodityDetails.parameters" :key="item.id">
+          <el-descriptions-item v-for="param in curCommodityDetails.params" :key="param.id">
             <template slot="label">
-              {{item.name}}
+              {{param.name}}
             </template>
-            <el-tag v-for="(option, index) in item.options" :key="option.id" :type="tagTypes[index % 4]" style="margin-right: 10px" >
-              {{`${option.description}(¥${formatPrice(curCommodityDetails.price, curCommodityDetails.discount, option.add)})`}}
+            <el-tag v-for="(option, index) in param.options" :key="option.id" :type="tagTypes[index % 4]" style="margin-right: 10px" >
+              {{`${option.description}(¥${formatPrice(curCommodityDetails.price, option.add)})`}}
             </el-tag>
           </el-descriptions-item>
         </el-descriptions>
@@ -252,7 +226,9 @@ export default {
       shopList: [],
       curShopId: 0,
       curCommodityList: [],
-      curCommodityDetails: {}
+      curCommodityDetails: {},
+      filterTotalCnt: 0,
+      currentPage: 1
     }
   },
   methods: {
@@ -261,21 +237,34 @@ export default {
      */
     async getShopList () {
       const res = await api.GET_USER_SHOP_LIST(this.userId)
-      this.shopList = res.owner_shop.concat(res.admin_shop)
+      this.shopList = res.owning_shops.concat(res.managing_shops)
     },
     /**
      * 获得商品列表
      */
     async getCommodityList () {
-      const res = await api.GET_COMMODITY_LIST_FOR_SHOP(this.curShopId, 1, { keyword: '' })
+      const params = {
+        page: this.currentPage,
+        keyword: ''
+      }
+      const res = await api.GET_COMMODITY_LIST_FOR_SHOP(this.curShopId, params)
       this.curCommodityList = res.data
+      this.filterTotalCnt = res.tot_count
       console.log(this.curCommodityList)
+    },
+    /**
+     * 响应用户对展示页面下标的修改
+     * 并重新发送请求
+     */
+    handleCurrentChange (value) {
+      this.currentPage = value
+      this.getCommodityList()
     },
     /**
      * 获得某商品的详情
      */
     async getCommodityDetails (commodityId) {
-      const res = await api.GET_COMMODITY_DETIALS(commodityId)
+      const res = await api.GET_COMMODITY_DETAILS(commodityId)
       console.log(res)
       this.curCommodityDetails = res
       this.drawer = true
@@ -320,22 +309,10 @@ export default {
       this.$Message.success('修改成功！')
     },
     /**
-     * 修改商品折扣
-     */
-    async changeDiscount (commodityId) {
-      if (!/^[0-9]+\.[0-9]{2}$/.test(this.newDiscount)) {
-        this.$Message.error('必须输入两位小数！')
-      } else {
-        await api.UPDATE_COMMODITY_DETAILS(commodityId, { discount: this.newDiscount })
-        await this.getCommodityList()
-        this.$Message.success('修改成功！')
-      }
-    },
-    /**
      * 根据原价格、折扣、参数加成计算总价格
      */
-    formatPrice (oriPrice, discount, addition) {
-      return (parseFloat(oriPrice) - parseFloat(discount) + parseFloat(addition)).toFixed(2)
+    formatPrice (oriPrice, addition) {
+      return (parseFloat(oriPrice) + parseFloat(addition)).toFixed(2)
     }
   },
   watch: {
@@ -345,16 +322,14 @@ export default {
       }
     }
   },
-  mounted () {
-    this.getShopList()
-      .then(() => {
-        if (this.shopList.length === 0) {
-          this.$router.push({ path: '/shop/create' })
-          this.$Message.warning('您还没有创建店铺!')
-        } else {
-          this.curShopId = this.shopList[0].id
-        }
-      })
+  async mounted () {
+    await this.getShopList()
+    if (this.shopList.length === 0) {
+      await this.$router.push({ path: '/shop/create' })
+      this.$Message.warning('您还没有创建店铺!')
+    } else {
+      this.curShopId = this.shopList[0].id
+    }
   }
 }
 </script>
