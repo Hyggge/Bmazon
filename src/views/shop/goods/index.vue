@@ -189,7 +189,7 @@
       </el-descriptions>
       <br><br>
       <!--商品具体参数-->
-      <template v-if="curCommodityDetails.params !== undefined && curCommodityDetails.params.length !== 0">
+      <template v-if="curCommodityDetails.params  && curCommodityDetails.params.length !== 0">
         <h3 style="margin-left: 10px">商品参数</h3><br>
         <el-descriptions :column="1"  border>
           <el-descriptions-item v-for="param in curCommodityDetails.params" :key="param.id">
