@@ -133,15 +133,6 @@ const frameIn = [
         },
         component: () => import('@/views/admin/show-user-certifications')
       },
-      {
-        path: 'admin/show-logs',
-        name: 'show-logs',
-        meta: {
-          title: '日志列表',
-          auth: true
-        },
-        component: () => import('@/views/admin/show-logs')
-      },
       // 用户页面
       {
         path: 'user/details',

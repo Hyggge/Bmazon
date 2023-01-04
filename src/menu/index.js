@@ -71,7 +71,6 @@ export const menuAside = supplementPath([
       { path: '/admin/show-shops', title: '店铺列表', icon: 'line-chart' },
       { path: '/admin/show-orders', title: '订单列表', icon: 'line-chart' },
       { path: '/admin/show-user-certifications', title: '学生认证请求列表', icon: 'line-chart' },
-      { path: '/admin/show-logs', title: '日志列表', icon: 'bar-chart' }
     ]
   }
 ])
