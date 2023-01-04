@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div v-for="(item,i) in commentList" :key="i" class="author-title reply-father">
+    <div v-for="item in commentList" :key="item.id" class="author-title reply-father">
+
       <el-avatar class="header-img" :size="40" :src="item.user_image_url != null ? item.user_image_url : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
       <div class="author-info">
-        <span class="author-name">{{item.order__user__nickname}}</span>
+        <span class="author-name">{{item.username}}</span>
         <span class="author-time" >
           {{formatTime(item.comment_time)}}
-          <span v-if="item.parameters.length !== 0">
-            <el-tag v-for="param in item.parameters" size="mini" type="info" style="margin-right: 5px">{{param}}</el-tag>
+          <span v-if="item.options.length !== 0">
+            <el-tag v-for="option in item.options" size="mini" type="info" style="margin-right: 5px">{{option}}</el-tag>
           </span>
         </span>
         <span class="author-time">
@@ -18,11 +19,6 @@
         <p>
           <span class="reply">{{item.content === '' ? '暂无评价' : item.content}}</span>
         </p>
-        <el-row v-if="item.image_urls.length !== 0" :gutter="10" class="img">
-          <el-col v-for="(url, urlIndex) in item.image_urls" :key="urlIndex" :span="5">
-            <img  :src="url" alt="" style="width: 100%; height: 100px">
-          </el-col>
-        </el-row>
       </div>
     </div>
   </div>
@@ -48,7 +44,7 @@ export default {
     async getCommentList () {
       const res = await api.GET_COMMENT_LIST_OF_COMMODITY(this.commodityId)
       this.commentList = res.data
-      this.filterTotalCnt = res.filter_count
+      this.filterTotalCnt = res.tot_count
       console.log(this.filterTotalCnt)
       console.log(this.commentList)
     }

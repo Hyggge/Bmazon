@@ -6,7 +6,7 @@
     <!--</template>-->
     <el-row style="margin-top: 10px">
       <el-col :span="9" :offset="1">
-        <img :src="commodityDetails.img_url" style="border-radius: 20px; width: 100%">
+        <img :src="commodityDetails.image_url" style="border-radius: 20px; width: 100%">
       </el-col>
       <el-col :span="12" :offset="1" style="margin-top: 15px">
         <!--商品介绍-->
@@ -64,7 +64,7 @@
           </el-col>
         </el-row>
         <!--商品属性-->
-        <el-row class="term" v-for="(param, paramIndex) in commodityDetails.parameters" :key="param.id">
+        <el-row class="term" v-for="(param, paramIndex) in commodityDetails.params" :key="param.id">
           <el-col class="title" :span="3"> {{param.name}}:</el-col>
           <el-col class="content" :span="20">
             <el-radio-group v-model="selectedOptions[paramIndex]" size="mini">
@@ -115,7 +115,7 @@
         <el-row :gutter="30">
           <el-col :span="6" style="margin-bottom: 20px" >
             <div>
-              <img :src="commodityDetails.img_url" alt="" style="width: 100%; height: 100%">
+              <img :src="commodityDetails.image_url" alt="" style="width: 100%; height: 100%">
             </div>
           </el-col>
           <div v-for="url in commodityDetails.img_url_list">
@@ -227,8 +227,8 @@ export default {
      * 获得商品的详细信息
      */
     async getCommodityDetails () {
-      this.commodityDetails = await api.GET_COMMODITY_DETIALS(this.commodityId)
-      this.commodityDetails.parameters.forEach(() => {
+      this.commodityDetails = await api.GET_COMMODITY_DETAILS(this.commodityId)
+      this.commodityDetails.params.forEach(() => {
         this.selectedOptions.unshift(0)
         this.selectedAdditions.unshift(0)
       })
@@ -238,8 +238,8 @@ export default {
     /**
      * 根据原价格、折扣、参数加成计算总价格
      */
-    formatPrice (oriPrice, discount, addition, num) {
-      return (num * (parseFloat(oriPrice) - parseFloat(discount) + parseFloat(addition))).toFixed(2)
+    formatPrice (oriPrice, addition, num) {
+      return (num * (parseFloat(oriPrice) + parseFloat(addition))).toFixed(2)
     },
     /**
      * 计算实际价格
@@ -249,7 +249,7 @@ export default {
       this.selectedAdditions.forEach((value, index) => {
         addSum += parseFloat(value)
       })
-      return this.formatPrice(this.commodityDetails.price, this.commodityDetails.discount, addSum, this.form.num)
+      return this.formatPrice(this.commodityDetails.price, addSum, this.form.num)
     },
     /**
      * 点击选项时执行
@@ -284,12 +284,11 @@ export default {
      * 下单
      */
     submitOrder () {
-      const select_paras = []
-      this.selectedOptions.forEach((value, index) => {
-        if (value !== 0) select_paras.push(value)
+      Object.assign(this.form, {
+        selected_options: this.selectedOptions.filter(value => value !== 0),
+        commodity_id: this.commodityId
       })
-      Object.assign(this.form, { select_paras })
-      api.SUBMIT_ORDER(this.commodityId, this.form)
+      api.SUBMIT_ORDER(this.form)
       this.$Message.success('下单成功')
     },
     /**
