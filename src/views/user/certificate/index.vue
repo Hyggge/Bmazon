@@ -35,16 +35,24 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="上传图片" required>
+          <el-form-item label="学生证件" required>
             <el-upload
               class="avatar-uploader"
-              action="/api/file/upload"
+              action="/api/images"
               :show-file-list="false"
               :headers="{Authorization: 'Bearer ' + token}"
               :on-success="handleUploadSuccess"
               :before-upload="beforeImageUpload">
-              <img v-if="imageUrl" :src="imageUrl" style="width: 100%" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <el-row>
+                <i style="text-align: left" class="el-icon-plus avatar-uploader-icon"></i>
+              </el-row>
+              <el-row>
+                <el-image v-if="imageUrl"
+                  style="width: 250px"
+                  :src="imageUrl"
+                  :fit="fit">
+                </el-image>
+              </el-row>
             </el-upload>
           </el-form-item>
           <el-form-item>
@@ -96,7 +104,7 @@ export default {
       if (this.valid) {
         api.SUBMIT_USER_CERTIFICATE(this.form)
           .then((res) => {
-            this.$Message.success('提交成功！')
+            this.$Message.success('认证成功！')
             this.$router.push({ path: '/user/details' })
           })
           .catch((err) => {

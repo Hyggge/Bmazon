@@ -83,7 +83,7 @@
             <!--上传多个图片-->
             <el-upload
               class="upload-demo"
-              action="/api/file/upload"
+              action="/api/images"
               list-type="picture"
               :headers="{Authorization: 'Bearer ' + token}"
               :on-success="handleUploadSuccess"
@@ -95,7 +95,7 @@
             <!--上传单个图片-->
             <!--<el-upload-->
             <!--  class="avatar-uploader"-->
-            <!--  action="/api/file/upload"-->
+            <!--  action="/api/images"-->
             <!--  :show-file-list="false"-->
             <!--  :headers="{Authorization: 'Bearer ' + token}"-->
             <!--  :on-success="handleUploadSuccess">-->

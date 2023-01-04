@@ -28,7 +28,7 @@
             :on-error="handleUploadError"
             :before-upload="beforeImageUpload"
             :show-file-list="false"
-            :action="`/api/file/upload`">
+            :action="`/api/images`">
             <el-button size="mini"  type="success" >上传新头像</el-button>
           </el-upload>
         </el-col>
