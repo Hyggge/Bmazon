@@ -24,9 +24,6 @@
           <el-form-item label="商品价格" prop="price" :rules="rules.price">
             <el-input v-model.trim="form.price"></el-input>
           </el-form-item>
-          <el-form-item label="商品折扣" prop="discount" :rules="rules.discount">
-            <el-input v-model.trim="form.discount"></el-input>
-          </el-form-item>
           <el-form-item label="商品总量" prop="total" :rules="rules.total">
             <el-input v-model.trim="form.total"></el-input>
           </el-form-item>
@@ -36,7 +33,7 @@
             <el-radio v-model="form.method" :label="2">送货上门</el-radio>
           </el-form-item>
           <el-form-item label="商品状态" prop="status" :rules="rules.status">
-            <el-select v-model="form.status" clearable placeholder="请选择">
+            <el-select v-model="form.status"  placeholder="请选择">
               <el-option label="未生效" :value="0"> </el-option>
               <el-option label="预售中" :value="1"> </el-option>
               <el-option label="售卖中" :value="2"> </el-option>
@@ -49,25 +46,25 @@
         <el-form ref="form2" :model="form" label-width="80px" style="width: 80%; margin-left: 20px">
 
           <!--循环生成参数输入框-->
-          <div v-for="(para, paraIndex) in form.para_set" :key="paraIndex">
-            <el-form-item label="参数名" :prop="'para_set.' +  paraIndex + '.name'" :rules="rules.paraName">
-              <el-input v-model="para.name" style="width: 300px"></el-input>
+          <div v-for="(para, paraIndex) in form.params" :key="paraIndex">
+            <el-form-item label="参数名" :prop="'params.' +  paraIndex + '.name'" :rules="rules.paraName">
+              <el-input v-model="para.name" style="width: 300px" placeholder="请输入参数名"></el-input>
               <a class="el-icon-delete" style="margin-left: 10px" @click="deletePara(paraIndex)"></a>
-              <!--<a v-if="paraIndex === form.para_set.length - 1" class="el-icon-plus" style="margin-left: 10px" @click="addPara"></a>-->
+              <!--<a v-if="paraIndex === form.params.length - 1" class="el-icon-plus" style="margin-left: 10px" @click="addPara"></a>-->
             </el-form-item>
             <!--循环生成可选项输入框-->
             <el-form-item label="可选项" required>
               <row v-for="(option, optionIndex) in para.options" :key="optionIndex" style="margin-bottom: 22px">
                 <!--可选项名称-->
-                <el-form-item :prop="'para_set.' + paraIndex +'.options.'+ optionIndex +'.description'" :rules="rules.optionName">
+                <el-form-item :prop="'params.' + paraIndex +'.options.'+ optionIndex +'.description'" :rules="rules.optionName">
                   <el-input v-model="option.description" style="width: 130px; margin-right: 10px" placeholder="请输入选项名称" > </el-input>
                 </el-form-item>
                 <!--可选项对应价格-->
-                <el-form-item :prop="'para_set.' + paraIndex +'.options.'+ optionIndex +'.price'" :rules="rules.optionPrice">
-                  <el-input v-model="option.price" style="width: 130px" placeholder="请输入对应价格"> </el-input>
+                <el-form-item :prop="'params.' + paraIndex +'.options.'+ optionIndex +'.add'" :rules="rules.optionAdd">
+                  <el-input v-model="option.add" style="width: 130px" placeholder="请输入价格增量"> </el-input>
                 </el-form-item>
-                <a v-if="form.para_set[paraIndex].options.length !== 1" class="el-icon-delete" style="margin-left: 10px; margin-top: 12px" @click="deleteOption(paraIndex, optionIndex)"></a>
-                <a v-if="optionIndex === form.para_set[paraIndex].options.length - 1" class="el-icon-plus" style="margin-left: 10px; margin-top: 12px" @click="addOption(paraIndex)"></a>
+                <a v-if="form.params[paraIndex].options.length !== 1" class="el-icon-delete" style="margin-left: 10px; margin-top: 12px" @click="deleteOption(paraIndex, optionIndex)"></a>
+                <a v-if="optionIndex === form.params[paraIndex].options.length - 1" class="el-icon-plus" style="margin-left: 10px; margin-top: 12px" @click="addOption(paraIndex)"></a>
               </row>
             </el-form-item>
             <hr style="margin-bottom: 20px">
@@ -76,7 +73,7 @@
           <el-button type="primary" @click="addPara"> 增加参数 </el-button>
         </el-form>
       </el-tab-pane>
-      <!--商品图片 TODO:商品图片有可能有多个-->
+      <!--商品图片-->
       <el-tab-pane label="商品图片" name="2">
         <el-form ref="form3" :model="form" label-width="80px" style="width: 80%; margin-left: 20px">
           <el-form-item label="上传图片" prop="image_id" :rules="rules.image">
@@ -141,18 +138,17 @@ export default {
         name: '',
         total: '',
         price: '',
-        discount: '',
         method: 0,
         introduction: '',
         status: 2,
         image_id: [],
-        para_set: [
+        params: [
           // item
           // {
           //   name: '',
           //   options: [
           //     // para
-          //     { description: '', price: '' }
+          //     { description: '', add: '' }
           //   ]
           // }
         ]
@@ -160,13 +156,12 @@ export default {
       rules: {
         name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
         price: [{ required: true, message: '请输入价格', trigger: 'blur' }, { validator: this.checkPrice, trigger: 'blur' }],
-        discount: [{ required: true, message: '请输入商品优惠', trigger: 'blur' }, { validator: this.checkPrice, trigger: 'blur' }],
         total: [{ required: true, message: '请输入商品总量', trigger: 'blur' }, { validator: this.checkTotal, trigger: 'blur' }],
         method: [{ required: true, message: '请输入交易方式', trigger: 'blur' }],
         status: [{ required: true, message: '请输入商品状态', trigger: 'blur' }],
         paraName: [{ required: true, message: '参数名不能为空', trigger: 'blur' }],
         optionName: [{ required: true, message: '选项名称不能为空', trigger: 'blur' }],
-        optionPrice: [{ required: true, message: '对应价格不能为空', trigger: 'blur' }, { validator: this.checkPrice, trigger: 'blur' }],
+        optionAdd: [{ required: true, message: '价格增量不能为空', trigger: 'blur' }, { validator: this.checkPrice, trigger: 'blur' }],
         image: [{ required: true, message: '图片不能为空', trigger: 'blur' }],
         introduction: [{ required: true, message: '商品介绍不能为空', trigger: 'blur' }]
       }
@@ -188,18 +183,8 @@ export default {
         this.$Message.error('表单输入不合法！')
       }
       console.log(this.form)
-      // 构造请求数据
-      const data = JSON.parse(JSON.stringify(this.form))
-      data.para_set.forEach((para, paraIndex) => {
-        const map = {}
-        para.options.forEach((option, optionIndex) => {
-          map[option.description] = ((parseFloat(option.price) - parseFloat(data.price))).toFixed(2) + ''
-        })
-        para.options = map
-      })
-      console.log(data)
       // 发送请求
-      const res = await api.ADD_COMMODITY(this.curShopId, data)
+      const res = await api.ADD_COMMODITY(this.curShopId, this.form)
       console.log(res)
       this.$Message.success('创建成功！')
       await this.$router.push({ path: '/shop/goods' })
@@ -224,7 +209,7 @@ export default {
      * 增加参数
      */
     addPara () {
-      this.form.para_set.push({
+      this.form.params.push({
         name: '',
         options: [{ description: '', price: '' }]
       })
@@ -233,29 +218,29 @@ export default {
      * 删除参数
      */
     deletePara (paraIndex) {
-      this.form.para_set =
-        this.form.para_set.filter((value, index) => { return index !== paraIndex })
+      this.form.params =
+        this.form.params.filter((value, index) => { return index !== paraIndex })
     },
     /**
      * 增加可选项
      */
     addOption (paraIndex) {
-      this.form.para_set[paraIndex].options.push(
-        { description: '', price: '' }
+      this.form.params[paraIndex].options.push(
+        { description: '', add: '' }
       )
     },
     /**
      * 删除可选项
      */
     deleteOption (paraIndex, optionIndex) {
-      this.form.para_set[paraIndex].options =
-        this.form.para_set[paraIndex].options.filter((value, index) => { return index !== optionIndex })
+      this.form.params[paraIndex].options =
+        this.form.params[paraIndex].options.filter((value, index) => { return index !== optionIndex })
     },
     /**
      * 验证价格是否合法
      */
     checkPrice (rule, value, callback) {
-      const regExp = /^[0-9]+([.][0-9]{0,2})?$/
+      const regExp = /^(-)?[0-9]+([.][0-9]{0,2})?$/
       if (!regExp.test(value)) {
         callback(new Error('输入数字不合法（必须为整数、1位小数或2位小数）'))
       } else {
