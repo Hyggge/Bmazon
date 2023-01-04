@@ -54,7 +54,7 @@
             <el-card style="height: 400px; cursor: pointer">
               <!--商品图片-->
               <div style="height: 200px">
-                <img :src="commodity.img_url" style="width: 100%; height: 100%">
+                <el-image :src="commodity.image_url" style="width: 100%; height: 100%" fit="fill"></el-image>
               </div>
               <!--商品介绍-->
               <h4 style="height: 70px; color: grey; margin-top: 10px">
@@ -64,7 +64,7 @@
               <h2>{{modifyIntroduction(commodity.name, 10)}}</h2>
               <!--商品价格-->
               <h2 style="color: #ff8226">
-                {{`¥` + (commodity.price - commodity.discount).toFixed(2)}}
+                {{`¥` + parseFloat(commodity.price).toFixed(2) }}
               </h2>
               <!--商品的状态和交易方式-->
               <div>
@@ -136,22 +136,23 @@ export default {
      */
     async queryCommodities () {
       console.log(this.orderBy)
-      const data = {
+      const params = {
+        page: this.currentPage,
         keyword: this.query.keyword, // keyword字段是必须的
         ...this.filter
       }
       // 加入排序规则
       if (this.orderBy === 0) {
-        data.order_by = 'price'
+        params.order_by = 'price'
       } else if (this.orderBy === 1) {
-        data.order_by = '-price'
+        params.order_by = '-price'
       } else if (this.orderBy === 2) {
-        data.order_by = 'sale'
+        params.order_by = 'sale'
       } else {
-        data.order_by = '-sale'
+        params.order_by = '-sale'
       }
       // 发送请求
-      const res = await api.GET_COMMODITY_LIST_FOR_USER(this.currentPage, data)
+      const res = await api.GET_COMMODITY_LIST_FOR_USER(params)
       this.commodityList = res.data
       this.filterTotalCnt = res.tot_count
       console.log(res)
