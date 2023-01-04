@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  # root "articles#index"
+  root "auth#redirect_to_frontend"
 
   # 登录注册相关API
   post '/api/auth/login', to: 'auth#login'

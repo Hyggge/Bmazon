@@ -480,6 +480,7 @@
 			"username": "mlh",
 			"student_id": 20373311,
 			"student_name": "闵令杭",
+            "depart": 1,
 			"req_time": "2023-01-02T15:13:24.914+08:00"
 		},
 		{
@@ -487,7 +488,8 @@
 			"username": "czh",
 			"student_id": 20373379,
 			"student_name": "陈正昊",
-			"req_time": "2023-01-03T17:01:57.660+08:00"
+			"depart": 6,
+            "req_time": "2023-01-03T17:01:57.660+08:00"
 		}
 	]
 }
