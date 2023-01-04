@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     student_info = {
       id: @user.student.id,
       name: @user.student.name,
+      gender: @user.student.gender,
       depart: @user.student.depart,
       attendance_year: @user.student.attendance_year,
     } if @user.student

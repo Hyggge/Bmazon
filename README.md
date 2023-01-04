@@ -176,10 +176,11 @@
 
 ##### Response
 
-* 成功则返回：`token`（JWT token）, `ddl`（token有效截止时间），`role`（0表示管理员，1表示非管理员）
+* 成功则返回：``id`（用户id）`token`（JWT token）, `ddl`（token有效截止时间），`role`（0表示管理员，1表示非管理员）
 
   ```json
   {
+      "id": 1,
   	"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NzI4MTg3MDd9.SCkAmwUYgQYTuTg8oN0XOavRTIMYK8F7p6ha_gJwvDo",
   	"ddl": "01-04-2023 15:51",
   	"role": 0
@@ -281,6 +282,7 @@
   	"student_info": {
   		"id": 20373379,
   		"name": "陈正昊",
+          "gender": 0,
   		"depart": 6,
   		"attendance_year": 2022
   	},
@@ -1218,6 +1220,7 @@
 		"id": 1,
 		"name": "汽水",
 		"price": "10.0",
+        "imgae_url": "....",
 		"shop_id": 1,
 		"shop_name": "czh的小店"
 	}
@@ -1337,10 +1340,12 @@ order_id 为订单 id
               "price": "12.0",
               "status": 4,
               "start_time": "2023-01-03T00:53:04.534+08:00",
+              "selected_options": ["雪碧", "北京"],
               "commodity_info": {
                   "id": 1,
                   "name": "汽水",
                   "price": "10.0",
+                  "imgae_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
@@ -1351,10 +1356,12 @@ order_id 为订单 id
               "price": "2000.0",
               "status": 5,
               "start_time": "2023-01-03T10:51:34.480+08:00",
+          	"options": [],
               "commodity_info": {
                   "id": 3,
                   "name": "娃哈哈",
                   "price": "100.0",
+                  "imgae_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
@@ -1394,6 +1401,7 @@ order_id 为订单 id
               "price": "12.0",
               "status": 4,
               "start_time": "2023-01-03T00:53:04.534+08:00",
+              "selected_options": ["雪碧", "北京"],
               "user_info": {
                   "id": 1,
                   "username": "czh"
@@ -1401,7 +1409,8 @@ order_id 为订单 id
               "commodity_info": {
                   "id": 1,
                   "name": "汽水",
-                  "price": "10.0"
+                  "price": "10.0",
+                  "imgae_url": "...."
               }
           },
           {
@@ -1410,6 +1419,7 @@ order_id 为订单 id
               "price": "2000.0",
               "status": 5,
               "start_time": "2023-01-03T10:51:34.480+08:00",
+              "options": [],
               "user_info": {
                   "id": 1,
                   "username": "czh"
@@ -1417,7 +1427,8 @@ order_id 为订单 id
               "commodity_info": {
                   "id": 3,
                   "name": "娃哈哈",
-                  "price": "100.0"
+                  "price": "100.0",
+                  "imgae_url": "....",
               }
           }
       ]
@@ -1449,6 +1460,7 @@ order_id 为订单 id
               "price": "12.0",
               "status": 4,
               "start_time": "2023-01-03T00:53:04.534+08:00",
+              "selected_options": ["雪碧", "北京"],
               "user_info": {
                   "id": 1,
                   "username": "czh"
@@ -1457,6 +1469,7 @@ order_id 为订单 id
                   "id": 1,
                   "name": "汽水",
                   "price": "10.0",
+                  "imgae_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
@@ -1467,6 +1480,7 @@ order_id 为订单 id
               "price": "2000.0",
               "status": 5,
               "start_time": "2023-01-03T10:51:34.480+08:00",
+              "options": [],
               "user_info": {
                   "id": 1,
                   "username": "czh"
@@ -1475,6 +1489,7 @@ order_id 为订单 id
                   "id": 3,
                   "name": "娃哈哈",
                   "price": "100.0",
+                  "imgae_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }

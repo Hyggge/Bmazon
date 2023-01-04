@@ -1,6 +1,5 @@
 class StudentsController < ApplicationController
   before_action :authorize_request
-  before_action :check_student_id, only: [:check_dup_student_id]
   before_action :check_admin_role, only: [:show_all_for_admin]
 
   # [POST] /api/students

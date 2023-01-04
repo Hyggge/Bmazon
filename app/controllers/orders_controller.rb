@@ -119,6 +119,7 @@ class OrdersController < ApplicationController
       id: @commodity.id,
       name: @commodity.name,
       price: @commodity.price,
+      image_url: @commodity.image.url,
       shop_id: @commodity.shop.id,
       shop_name: @commodity.shop.name
     }
@@ -168,6 +169,7 @@ class OrdersController < ApplicationController
         id: @commodity.id,
         name: @commodity.name,
         price: @commodity.price,
+        image_url: @commodity.image.url,
         shop_id: @commodity.shop.id,
         shop_name: @commodity.shop.name
       }
@@ -177,6 +179,7 @@ class OrdersController < ApplicationController
         price: order.price,
         status: order.status,
         start_time: order.created_at,
+        selected_options: order.options.map { |option| option.description },
         commodity_info: commodity_info
       }
       tot_count += 1
@@ -213,6 +216,7 @@ class OrdersController < ApplicationController
         id: @commodity.id,
         name: @commodity.name,
         price: @commodity.price,
+        image_url: @commodity.image.url
       }
       data << {
         id: order.id,
@@ -220,6 +224,7 @@ class OrdersController < ApplicationController
         price: order.price,
         status: order.status,
         start_time: order.created_at,
+        selected_options: order.options.map { |option| option.description },
         user_info: user_info,
         commodity_info: commodity_info
       }
@@ -254,6 +259,7 @@ class OrdersController < ApplicationController
         id: @commodity.id,
         name: @commodity.name,
         price: @commodity.price,
+        image_url: @commodity.image.url,
         shop_id: @commodity.shop.id,
         shop_name: @commodity.shop.name
       }
@@ -263,6 +269,7 @@ class OrdersController < ApplicationController
         price: order.price,
         status: order.status,
         start_time: order.created_at,
+        selected_options: order.options.map { |option| option.description },
         user_info: user_info,
         commodity_info: commodity_info
       }
