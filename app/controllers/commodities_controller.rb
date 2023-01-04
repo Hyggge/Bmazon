@@ -116,6 +116,7 @@ class CommoditiesController < ApplicationController
       total: @commodity.total,
       sale: @commodity.sale,
       price: @commodity.price,
+      grade: get_commodity_grade(@commodity),
       image_url: @commodity.image == nil ? nil : @commodity.image.url,
       shop_info: shop_info,
       params: param_list
@@ -323,7 +324,7 @@ class CommoditiesController < ApplicationController
         cnt += 1
       end
     end
-    sum / cnt
+    if cnt != 0 then sum / cnt else nil end
   end
 
 

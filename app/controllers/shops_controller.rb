@@ -179,7 +179,7 @@ class ShopsController < ApplicationController
         end
       end
     end
-    sum / cnt
+    if cnt != 0 then sum / cnt else nil end
   end
 
 

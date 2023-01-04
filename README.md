@@ -813,6 +813,7 @@
   	"total": 100,
   	"sale": 1,
   	"price": "10.0",
+      "grade": 5
   	"image_url": "http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--f9be98befd8ef27ad3c8bb33f7f57380aabd2200/%E5%BD%95%E5%8F%96%E9%80%9A%E7%9F%A5%E4%B9%A6.jpg",
   	"shop_info": {
   		"id": 1,
@@ -1364,7 +1365,7 @@ order_id 为订单 id
               "price": "2000.0",
               "status": 5,
               "start_time": "2023-01-03T10:51:34.480+08:00",
-          	"options": [],
+          	"selected_options": [],
               "commodity_info": {
                   "id": 3,
                   "name": "娃哈哈",
@@ -1427,7 +1428,7 @@ order_id 为订单 id
               "price": "2000.0",
               "status": 5,
               "start_time": "2023-01-03T10:51:34.480+08:00",
-              "options": [],
+              "selected_options": [],
               "user_info": {
                   "id": 1,
                   "username": "czh"
@@ -1488,7 +1489,7 @@ order_id 为订单 id
               "price": "2000.0",
               "status": 5,
               "start_time": "2023-01-03T10:51:34.480+08:00",
-              "options": [],
+              "selected_options": [],
               "user_info": {
                   "id": 1,
                   "username": "czh"
