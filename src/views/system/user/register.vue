@@ -38,15 +38,6 @@
           </el-input>
 
           <el-input
-            prefix-icon="el-icon-lollipop"
-            class='my-el-input'
-            v-model.trim='nickname'
-            placeholder='请输入昵称'
-            style='margin-bottom: 20px'
-          >
-          </el-input>
-
-          <el-input
             prefix-icon="el-icon-message"
             class='my-el-input'
             v-model.trim='email'
@@ -78,7 +69,6 @@ export default {
       username: '',
       password: '',
       confirm: '',
-      nickname: '',
       email: ''
     }
   },
@@ -128,22 +118,13 @@ export default {
       }
       return true
     },
-    checkNickname () {
-      if (this.nickname === '' || this.nickname === null) {
-        this.$Message.error('昵称不能为空！')
-        return false
-      }
-      return true
-    },
     onSubmit () {
       if (this.checkUsername() === false) return
       if (this.checkPassword() === false) return
-      if (this.checkNickname() === false) return
       if (this.checkEmail() === false) return
       const params = {
         username: this.username,
         password: this.password,
-        nickname: this.nickname,
         email: this.email
       }
       api.USER_REGISTER(params)

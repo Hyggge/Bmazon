@@ -26,7 +26,8 @@ export default {
       console.log('Bearer ' + res.token)
       console.log(res)
       const userInfo = await api.GET_USER_INFO(res.id)
-      var headImg = userInfo.img_url
+      let headImg = userInfo.image_url
+      console.log(userInfo)
       if (headImg == null) headImg = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { username: username, role: res.role, id: res.id, headImg: headImg }, { root: true })

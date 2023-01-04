@@ -32,7 +32,7 @@ function createService () {
       if (code === undefined) {
         // 如果没有 code 代表这不是项目后端开发的接口 比如可能是 D2Admin 请求最新版本
         return dataAxios
-      } else if (code === 400 && dataAxios.response.data.error_msg === 'ErrorCode.INVALID_REQUEST_ARGUMENT_ERROR: Token过期') {
+      } else if (code === 400 && dataAxios.response.data.error === 'ErrorCode.INVALID_REQUEST_ARGUMENT_ERROR: Token过期') {
         router.push({ path: '/login' })
         Message.error('用户信息失效，请重新登录！')
         // TODO:测试该功能

@@ -85,8 +85,7 @@ export default {
         })
         .catch((err) => {
           console.log(err.response.data)
-          let errMsg = err.response.data.error_msg
-          errMsg = errMsg.slice(errMsg.indexOf(':') + 1)
+          const errMsg = err.response.data.error
           this.$Message.error(errMsg)
         })
     }
