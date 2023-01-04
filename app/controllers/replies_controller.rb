@@ -10,7 +10,7 @@ class RepliesController < ApplicationController
     if refer_id != nil && Reply.find_by(id: refer_id) == nil
       render json: {error: "invalid refer_id"}, status: :bad_request
       return
-    elsif refer_id != nil && @article.reply_ids.include?(refer_id)
+    elsif refer_id != nil && ! @article.reply_ids.include?(refer_id)
       render json: {error: "the reply quoted do not belong in this article"}, status: :bad_request
       return
     end
