@@ -27,11 +27,11 @@
     </div>
     <div v-for="reply in replyList" :key="reply.id" class="author-title reply-father">
       <!--回复者头像-->
-      <el-avatar class="header-img" :size="40" :src="reply.image_url != null ? reply.image_url : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
+      <el-avatar class="header-img" :size="40" :src="reply.user_info.image_url != null ? reply.user_info.image_url : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
       <!--回复者信息-->
       <div class="author-info">
-        <span class="author-name">{{reply.user__nickname}} </span>
-        <span class="author-time"> {{`${reply.floor}楼: ` + (reply.refer === null ? '回复文章' : `回复${reply.refer_floor}楼`)}}</span>
+        <span class="author-name">{{reply.user_info.username}} </span>
+        <span class="author-time"> {{`${reply.floor}楼: ` + (reply.refer_info === null ? '回复文章' : `回复${reply.refer_info.floor}楼`)}}</span>
       </div>
       <!--打开回复框的按钮-->
       <div class="icon-btn" style="text-align: right; margin-right: 50px">
@@ -62,7 +62,7 @@
           <!--确定按钮-->
           <el-col :span="2">
             <div class=" reply-btn-box">
-              <el-button class="reply-btn" size="medium" @click="replyToReply(reply.floor)" type="primary">回复
+              <el-button class="reply-btn" size="medium" @click="replyToReply(reply.id, reply.floor)" type="primary">回复
               </el-button>
             </div>
           </el-col>
@@ -124,11 +124,18 @@ export default {
   directives: { clickoutside },
   methods: {
     /**
+     * 获取当前用户信息
+     */
+    async getUserHeader () {
+      const res = await api.GET_USER_INFO(this.$store.state.d2admin.user.info.id)
+      this.myHeader = res.image_url ? res.image_url : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+    },
+    /**
      * 获取文章所有的回复
      */
     async getReplyList () {
       const res = await api.GET_REPLY_LIST(this.articleId)
-      this.replyList = res.replies
+      this.replyList = res.data
       for (const i in this.replyList) {
         this.inputBox.push(false)
       }
@@ -167,13 +174,13 @@ export default {
     /**
      * 回复某个用户的回复
      */
-    async replyToReply (floor) {
+    async replyToReply (id, floor) {
       if (!this.replyComment) {
         this.$Message.error('回复不能为空！')
       } else {
         const data = {
           content: this.replyComment,
-          ref_floor: floor
+          refer_id: id
         }
         await api.CREATE_REPLY(this.articleId, data)
         await this.getReplyList()
@@ -214,6 +221,7 @@ export default {
     }
   },
   mounted () {
+    this.getUserHeader()
     this.getReplyList()
   }
 }
