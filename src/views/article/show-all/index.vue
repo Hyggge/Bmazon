@@ -49,14 +49,14 @@
               <h3>
                 <span>{{article.title}}</span>
               </h3>
-              <div class="author">作者: {{article.user__nickname}}</div>
+              <div class="author">作者: {{article.author_info.username}}</div>
               <div class="time">  时间: {{formatTime(article.post_time)}}</div>
-              <div class="time" style="margin-top: 2px">
-                <img src="../../../assets/img/liked.svg" alt="" style="width: 14px; ">
-                <span style="padding-top: 10px">{{article.star_count}}</span>
-                <img src="../../../assets/img/collected.svg" alt="" style="width: 14px; margin-left: 7px">
-                <span>{{article.collect_count}}</span>
-              </div>
+              <!--<div class="time" style="margin-top: 2px">-->
+              <!--  <img src="../../../assets/img/liked.svg" alt="" style="width: 14px; ">-->
+              <!--  <span style="padding-top: 10px">{{article.star_count}}</span>-->
+              <!--  <img src="../../../assets/img/collected.svg" alt="" style="width: 14px; margin-left: 7px">-->
+              <!--  <span>{{article.collect_count}}</span>-->
+              <!--</div>-->
             </div>
             <p>
               {{ modifyContent(article.content) }}
@@ -116,7 +116,8 @@ export default {
     async queryArticles () {
       const params = {
         ...this.filter,
-        page: this.currentPage
+        page: this.currentPage,
+        keyword: this.query.keyword
       }
       // 增加排序规则
       if (this.orderBy === 0) {
