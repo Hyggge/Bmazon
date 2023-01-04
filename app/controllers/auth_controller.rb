@@ -6,7 +6,7 @@ class AuthController < ApplicationController
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
       time = Time.now + 24.hours.to_i
-      render json: { token: token, ddl: time.strftime("%m-%d-%Y %H:%M"),
+      render json: { id: @user.id, token: token, ddl: time.strftime("%m-%d-%Y %H:%M"),
                      role: @user.role }, status: :ok
     elsif @user == nil
       render json: { error: "用户名不存在"}, status: :unauthorized
