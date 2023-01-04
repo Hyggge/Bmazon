@@ -33,8 +33,8 @@ class ShopsController < ApplicationController
       render json: {error: "only the owner can add an manager"}, status: :bad_request
     elsif @shop.type == 0
       render json: {error: "only partner stores can add manager"}, status: :bad_request
-    elsif @student == nil
-      render json: {error: "student_id is invalid"}, status: :bad_request
+    elsif @student.user == @shop.owner
+      render json: {error: "the owner cannot become the manager"}, status: :bad_request
     elsif @shop.managers.include?(@student)
       render json: {error: "the student is already a manager of the store"}, status: :bad_request
     else
