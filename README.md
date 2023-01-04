@@ -1228,7 +1228,7 @@
 		"id": 1,
 		"name": "汽水",
 		"price": "10.0",
-        "imgae_url": "....",
+        "image_url": "....",
 		"shop_id": 1,
 		"shop_name": "czh的小店"
 	}
@@ -1353,7 +1353,7 @@ order_id 为订单 id
                   "id": 1,
                   "name": "汽水",
                   "price": "10.0",
-                  "imgae_url": "....",
+                  "image_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
@@ -1369,7 +1369,7 @@ order_id 为订单 id
                   "id": 3,
                   "name": "娃哈哈",
                   "price": "100.0",
-                  "imgae_url": "....",
+                  "image_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
@@ -1418,7 +1418,7 @@ order_id 为订单 id
                   "id": 1,
                   "name": "汽水",
                   "price": "10.0",
-                  "imgae_url": "...."
+                  "image_url": "...."
               }
           },
           {
@@ -1436,7 +1436,7 @@ order_id 为订单 id
                   "id": 3,
                   "name": "娃哈哈",
                   "price": "100.0",
-                  "imgae_url": "....",
+                  "image_url": "....",
               }
           }
       ]
@@ -1477,7 +1477,7 @@ order_id 为订单 id
                   "id": 1,
                   "name": "汽水",
                   "price": "10.0",
-                  "imgae_url": "....",
+                  "image_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
@@ -1497,7 +1497,7 @@ order_id 为订单 id
                   "id": 3,
                   "name": "娃哈哈",
                   "price": "100.0",
-                  "imgae_url": "....",
+                  "image_url": "....",
                   "shop_id": 1,
                   "shop_name": "czh的小店"
               }
