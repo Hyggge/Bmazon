@@ -13,7 +13,7 @@
             <el-radio v-model="form.type" :label="0">个人店铺</el-radio>
             <el-radio v-model="form.type" :label="1">合作店铺</el-radio>
           </el-form-item>
-          <el-form-item label="店铺介绍">
+          <el-form-item label="店铺介绍" required>
             <el-input
               type="textarea"
               :rows="4"
@@ -49,6 +49,9 @@ export default {
       // 检查表单项是否为空
       if (this.form.name === '') {
         this.$Message.error('店铺名不能为空！')
+        return
+      } else if (this.form.introduction === '') {
+        this.$Message.error('店铺介绍不能为空！')
         return
       }
       // 发起创建店铺请求
