@@ -95,6 +95,7 @@ class CommoditiesController < ApplicationController
       option_list = []
       param.options.each do |option|
         option_list << {
+          id: option.id,
           description: option.description,
           add: option.add.to_f
         }
