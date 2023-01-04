@@ -61,7 +61,7 @@
               <i class="el-icon-user"></i>
               注册时间
             </template>
-            {{curShopDetails.reg_time.slice(0, curShopDetails.reg_time.indexOf('T'))}}
+            {{formatTime(curShopDetails.reg_time)}}
           </el-descriptions-item>
           <!--店铺评分 -->
           <el-descriptions-item>
@@ -98,7 +98,7 @@
               <i class="el-icon-user"></i>
               店主id
             </template>
-            {{curShopDetails.owner.id}}
+            {{curShopDetails.owner_info.id}}
           </el-descriptions-item>
           <!--店主昵称-->
           <el-descriptions-item>
@@ -106,7 +106,7 @@
               <i class="el-icon-user"></i>
               店主昵称
             </template>
-            {{curShopDetails.owner.nickname}}
+            {{curShopDetails.owner_info.username}}
           </el-descriptions-item>
           <!--店主学号-->
           <el-descriptions-item>
@@ -114,7 +114,7 @@
               <i class="el-icon-user"></i>
               店主学号
             </template>
-            {{curShopDetails.owner.student_id}}
+            {{curShopDetails.owner_info.student_id}}
           </el-descriptions-item>
           <!--店主姓名-->
           <el-descriptions-item>
@@ -122,7 +122,7 @@
               <i class="el-icon-user"></i>
               店主姓名
             </template>
-            {{curShopDetails.owner.real_name}}
+            {{curShopDetails.owner_info.real_name}}
           </el-descriptions-item>
         </el-descriptions>
       </el-collapse-item>
@@ -132,7 +132,7 @@
         <el-table
           border
           highlight-current-row
-          :data="curShopDetails.admins"
+          :data="curShopDetails.managers"
           style="width: 100%">
           <el-table-column
             prop="student_id"
@@ -145,9 +145,9 @@
             label="管理员姓名">
           </el-table-column>
           <el-table-column
-            prop="nickname"
+            prop="username"
             align="center"
-            label="管理员昵称">
+            label="管理员用户名">
           </el-table-column>
         </el-table>
         <br>
@@ -171,36 +171,44 @@ export default {
       token: util.cookies.get('token'),
       userId: this.$store.state.d2admin.user.info.id,
       shopList: [],
-      ownerShopList: [],
-      adminShopList: [],
+      owningShopList: [],
+      managingShopList: [],
       curShopId: 0,
       curShopDetails: {}
     }
   },
   computed: {
     shopImg () {
-      if (this.curShopDetails.img_url == null) {
+      if (this.curShopDetails.image_url == null) {
         return 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
       } else {
-        return this.curShopDetails.img_url
+        return this.curShopDetails.image_url
       }
     }
   },
   methods: {
+    formatTime: util.time.formatTime,
+    /**
+     * 获得店铺列表
+     */
     async getShopList () {
       const res = await api.GET_USER_SHOP_LIST(this.userId)
-      this.ownerShopList = res.owner_shop
-      this.adminShopList = res.admin_shop
-      this.shopList = this.ownerShopList.concat(this.adminShopList)
-      console.log(this.ownerShopList)
-      console.log(this.adminShopList)
+      this.owningShopList = res.owning_shops
+      this.managingShopList = res.managing_shops
+      this.shopList = this.owningShopList.concat(this.managingShopList)
       console.log(this.shopList)
     },
+    /**
+     * 获得当前店铺详情
+     */
     async getShopDetails () {
       const res = await api.GET_SHOP_DETAILS(this.curShopId)
       this.curShopDetails = res
       console.log(res)
     },
+    /**
+     * 增加管理员
+     */
     addAdmin () {
       this.$prompt('请输入要添加的管理员学号', '提示', {
         confirmButtonText: '确定',
@@ -216,6 +224,9 @@ export default {
           })
       })
     },
+    /**
+     * 删除管理员
+     */
     deleteAdmin () {
       this.$prompt('请输入要删除的管理员学号', '提示', {
         confirmButtonText: '确定',
@@ -256,8 +267,7 @@ export default {
         this.$Message.error('上传图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
-    },
-
+    }
   },
   watch: {
     curShopId: {
@@ -266,17 +276,16 @@ export default {
       }
     }
   },
-  mounted () {
-    this.getShopList()
-      .then(() => {
-        if (this.shopList.length === 0) {
-          this.$router.push({ path: '/shop/create' })
-          this.$Message.warning('您还没有创建店铺!')
-        } else {
-          this.curShopId = this.shopList[0].id
-          this.getShopDetails()
-        }
-      })
+  async mounted () {
+    await this.getShopList()
+    if (this.shopList.length === 0) {
+      await this.$router.push({ path: '/shop/create' })
+      this.$Message.warning('您还没有创建店铺!')
+    }
+    else {
+      this.curShopId = this.shopList[0].id
+      await this.getShopDetails()
+    }
   }
 }
 </script>

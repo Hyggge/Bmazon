@@ -228,7 +228,8 @@
           <template slot="label">
             所选选项
           </template>
-          <div v-if="curOrderDetails.selected_options.length === 0"> 无</div>
+          <div v-if="curOrderDetails.selected_options === undefined ||
+                      curOrderDetails.selected_options.length === 0"> 无</div>
           <div v-else>
             <el-tag v-for="(option, index) in curOrderDetails.selected_options"
                     :key="index" style="margin-right: 10px" size="mini">

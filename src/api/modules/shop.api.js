@@ -25,9 +25,8 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
 
   DELETE_SHOP_ADMIN (shopId, studentId) {
     return request({
-      url: `/shops/${shopId}/managers`,
-      method: 'delete',
-      data: { student_id: studentId }
+      url: `/shops/${shopId}/managers/${studentId}`,
+      method: 'delete'
     })
   },
 
