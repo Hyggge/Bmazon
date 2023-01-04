@@ -15,7 +15,7 @@
     <!--推荐商品的连接-->
     <el-input size="mini" placeholder="请输入推荐的商品链接...(可选)" v-model.trim="article.commodityUrl"></el-input>
     <!--富文本编辑器-->
-    <mavon-editor v-model="article.content" ref=md class="editor" @imgAdd="imgAdd" @imgDel="imgDel" @change="changeContent"/>
+    <mavon-editor v-model="article.content" ref='md' class="editor" @imgAdd="imgAdd" @imgDel="imgDel" @change="changeContent"/>
   </d2-container>
 </template>
 
@@ -64,15 +64,9 @@ export default {
      */
     async imgAdd (pos, file) {
       const res = await api.UPLOAD_IMAGE(file)
-      console.log(res)
       const imageId = res.id
-      console.log(imageId)
-      // 直接向服务器发起请求返回的是临时链接
-      // const ret = await api.DOWNLOAD_IMAGE(imageId)
-      // const imageUrl = ret.url
-      // console.log(imageUrl)
-      // 改用拼接而成的永久连接
-      const imageUrl = process.env.VUE_APP_API + '/api/file/download/' + imageId
+      const ret = await api.DOWNLOAD_IMAGE(imageId)
+      const imageUrl = ret.image_url
       this.$refs.md.$img2Url(pos, imageUrl)
     },
     /**
