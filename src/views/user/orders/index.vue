@@ -17,7 +17,7 @@
           <div v-if="scope.$index === 0">
           </div>
           <div v-else>
-            <img :src="scope.row.image_url" style="height: 100%; height: 80px">
+            <img :src="scope.row.commodity_info.image_url" style="height: 100%; height: 80px">
           </div>
         </template>
       </el-table-column>
@@ -36,11 +36,11 @@
             />
           </div>
           <div v-else>
-            <el-row>{{scope.row.commodity__name}}</el-row>
+            <el-row>{{scope.row.commodity_info.name}}</el-row>
             <el-row style="margin-top: 10px">
-              <el-tag v-for="(param, index) in scope.row.select_paras"
+              <el-tag v-for="(option, index) in scope.row.selected_options"
               :key="index" style="margin-left: 10px" size="mini">
-              {{param}}
+              {{option}}
               </el-tag>
             </el-row>
           </div>
@@ -101,7 +101,7 @@
             />
           </div>
           <div v-else>
-            {{scope.row.commodity__shop__name}}
+            {{scope.row.commodity_info.shop_name}}
           </div>
         </template>
       </el-table-column>
@@ -207,20 +207,34 @@
       :visible.sync="drawer"
       direction="rtl">
       <!--商品图片-->
-      <img :src="curOrderDetails.image_url" style="width: 100%; margin-bottom: 10px" alt="">
+      <img
+        :src="curOrderDetails.commodity_info ? curOrderDetails.commodity_info.image_url : null"
+        style="width: 100%; margin-bottom: 10px" alt="">
 
       <el-descriptions :column="2"  border>
         <el-descriptions-item :span="2">
           <template slot="label">
             商品名称
           </template>
-          {{curOrderDetails.commodity__name}}
+          {{curOrderDetails.commodity_info ? curOrderDetails.commodity_info.name : null}}
         </el-descriptions-item>
         <el-descriptions-item :span="2">
           <template slot="label">
             店铺名称
           </template>
-          {{curOrderDetails.commodity__shop__name}}
+          {{curOrderDetails.commodity_info ? curOrderDetails.commodity_info.shop_name : null}}
+        </el-descriptions-item>
+        <el-descriptions-item :span="2">
+          <template slot="label">
+            所选选项
+          </template>
+          <div v-if="curOrderDetails.selected_options.length === 0"> 无</div>
+          <div v-else>
+            <el-tag v-for="(option, index) in curOrderDetails.selected_options"
+                    :key="index" style="margin-right: 10px" size="mini">
+              {{option.description}}
+            </el-tag>
+          </div>
         </el-descriptions-item>
         <el-descriptions-item :span="2">
           <template slot="label">
@@ -261,31 +275,31 @@
           <template slot="label">
             下单时间
           </template>
-          {{curOrderDetails.start_time === null ? '无' : curOrderDetails.start_time }}
+          {{curOrderDetails.start_time === null ? '无' : formatTime(curOrderDetails.start_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if="curOrderDetails.status >= 1 && curOrderDetails.status !== 5" :span="2">
           <template slot="label">
             支付时间
           </template>
-          {{curOrderDetails.pay_time === null ? '无' : curOrderDetails.pay_time }}
+          {{curOrderDetails.pay_time === null ? '无' : formatTime(curOrderDetails.pay_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if="curOrderDetails.status >= 2 && curOrderDetails.status !== 5" :span="2">
           <template slot="label">
             发货时间
           </template>
-          {{curOrderDetails.deliver_time === null ? '无' : curOrderDetails.deliver_time }}
+          {{curOrderDetails.deliver_time === null ? '无' : formatTime(curOrderDetails.deliver_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if="curOrderDetails.status >= 3 && curOrderDetails.status !== 5" :span="2">
           <template slot="label">
             收货时间
           </template>
-          {{curOrderDetails.confirm_time === null ? '无' : curOrderDetails.confirm_time }}
+          {{curOrderDetails.confirm_time === null ? '无' : formatTime(curOrderDetails.confirm_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if=" curOrderDetails.status === 5" :span="2">
           <template slot="label">
             关闭时间
           </template>
-          {{curOrderDetails.close_time === null ? '无' : curOrderDetails.close_time }}
+          {{curOrderDetails.close_time === null ? '无' : formatTime(curOrderDetails.close_time) }}
         </el-descriptions-item>
 
       </el-descriptions>
@@ -379,7 +393,7 @@ export default {
       console.log(res.data)
       this.tableData = res.data
       this.tableData.unshift({})
-      this.filterTotalCnt = res.filter_count
+      this.filterTotalCnt = res.tot_count
     },
     /**
      * 响应用户对展示页面下标的修改
@@ -560,8 +574,8 @@ export default {
       this.$Message.success('评价成功！')
     }
   },
-  mounted () {
-    this.queryOrders()
+  async mounted () {
+    await this.queryOrders()
   }
 }
 </script>
