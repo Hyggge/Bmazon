@@ -22,7 +22,7 @@
           <div v-if="scope.$index === 0">
           </div>
           <div v-else>
-            <img :src="scope.row.image_url" style="height: 100%; height: 80px">
+            <img :src="scope.row.commodity_info.image_url" style="width: 100%; height: 80px">
           </div>
         </template>
       </el-table-column>
@@ -61,11 +61,11 @@
             />
           </div>
           <div v-else>
-            <el-row>{{scope.row.commodity__name}}</el-row>
+            <el-row>{{scope.row.commodity_info.name}}</el-row>
             <el-row style="margin-top: 10px">
-              <el-tag v-for="(param, index) in scope.row.select_paras"
+              <el-tag v-for="(option, index) in scope.row.selected_options"
                       :key="index" style="margin-left: 10px" size="mini">
-                {{param}}
+                {{option}}
               </el-tag>
             </el-row>
           </div>
@@ -106,26 +106,26 @@
             />
           </div>
           <div v-else>
-            {{`${scope.row.commodity__shop__name} (ID:${scope.row.commodity__shop_id})` }}
+            {{`${scope.row.commodity_info.shop_name} (ID:${scope.row.commodity_info.shop_id})` }}
           </div>
         </template>
       </el-table-column>
       <el-table-column
         prop="picture"
-        label="用户昵称"
+        label="买家用户名"
         align="center"
         width="100">
         <template v-slot="scope">
           <div v-if="scope.$index === 0">
             <el-input
-              v-model="query.userNickname"
+              v-model="query.username"
               size="small"
-              placeholder="查询用户昵称"
-              @change="queryOrdersByUserNickname"
+              placeholder="查询用户名"
+              @change="queryOrdersByUsername"
             />
           </div>
           <div v-else>
-            {{`${scope.row.user__nickname} (ID:${scope.row.user_id})` }}
+            {{`${scope.row.user_info.username} (ID:${scope.row.user_info.id})` }}
           </div>
         </template>
       </el-table-column>
@@ -238,19 +238,28 @@
           <template slot="label">
             商品名称
           </template>
-          {{curOrderDetails.commodity__name}}
+          {{curOrderDetails.commodity_info ? curOrderDetails.commodity_info.name : null}}
         </el-descriptions-item>
         <el-descriptions-item :span="2">
           <template slot="label">
             店铺名称
           </template>
-          {{curOrderDetails.commodity__shop__name}}
+          {{curOrderDetails.commodity_info ? curOrderDetails.commodity_info.shop_name : null}}
         </el-descriptions-item>
         <el-descriptions-item :span="2">
           <template slot="label">
             购买数量
           </template>
           {{curOrderDetails.num}}
+        </el-descriptions-item>
+        <el-descriptions-item :span="2">
+          <template slot="label">
+            所选选项
+          </template>
+          <el-tag v-for="(option, index) in curOrderDetails.selected_options"
+                  :key="index" style="margin-right: 10px" size="mini">
+            {{option.description}}
+          </el-tag>
         </el-descriptions-item>
         <el-descriptions-item :span="2">
           <template slot="label">
@@ -285,31 +294,31 @@
           <template slot="label">
             下单时间
           </template>
-          {{curOrderDetails.start_time === null ? '无' : curOrderDetails.start_time }}
+          {{curOrderDetails.start_time === null ? '无' : formatTime(curOrderDetails.start_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if="curOrderDetails.status >= 1 && curOrderDetails.status !== 5" :span="2">
           <template slot="label">
             支付时间
           </template>
-          {{curOrderDetails.pay_time === null ? '无' : curOrderDetails.pay_time }}
+          {{curOrderDetails.pay_time === null ? '无' : formatTime(curOrderDetails.pay_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if="curOrderDetails.status >= 2 && curOrderDetails.status !== 5" :span="2">
           <template slot="label">
             发货时间
           </template>
-          {{curOrderDetails.deliver_time === null ? '无' : curOrderDetails.deliver_time }}
+          {{curOrderDetails.deliver_time === null ? '无' : formatTime(curOrderDetails.deliver_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if="curOrderDetails.status >= 3 && curOrderDetails.status !== 5" :span="2">
           <template slot="label">
             收货时间
           </template>
-          {{curOrderDetails.confirm_time === null ? '无' : curOrderDetails.confirm_time }}
+          {{curOrderDetails.confirm_time === null ? '无' : formatTime(curOrderDetails.confirm_time) }}
         </el-descriptions-item>
         <el-descriptions-item v-if=" curOrderDetails.status === 5" :span="2">
           <template slot="label">
             关闭时间
           </template>
-          {{curOrderDetails.close_time === null ? '无' : curOrderDetails.close_time }}
+          {{curOrderDetails.close_time === null ? '无' : formatTime(curOrderDetails.close_time) }}
         </el-descriptions-item>
       </el-descriptions>
     </el-drawer>
@@ -341,7 +350,7 @@ export default {
         status: '',
         startTime: '',
         shopName: '',
-        userNickname: ''
+        username: ''
       },
       // 当前页面
       currentPage: 1,
@@ -389,7 +398,7 @@ export default {
       console.log(res.data)
       this.tableData = res.data
       this.tableData.unshift({})
-      this.filterTotalCnt = res.filter_count
+      this.filterTotalCnt = res.tot_count
     },
     /**
      * 响应用户对展示页面下标的修改
@@ -486,9 +495,9 @@ export default {
     /**
      * 根据用户输入的用户昵称进行查询
      */
-    queryOrdersByUserNickname () {
-      if (this.query.userNickname !== '') {
-        Object.assign(this.filter, { user__nickname__contains: this.query.userNickname })
+    queryOrdersByUsername () {
+      if (this.query.username !== '') {
+        Object.assign(this.filter, { user__nickname__contains: this.query.username })
       } else {
         delete this.filter.user__nickname__contains
       }

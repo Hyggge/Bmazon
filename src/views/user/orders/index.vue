@@ -17,7 +17,7 @@
           <div v-if="scope.$index === 0">
           </div>
           <div v-else>
-            <img :src="scope.row.commodity_info.image_url" style="height: 100%; height: 80px">
+            <img :src="scope.row.commodity_info.image_url" style="width: 100%; height: 80px">
           </div>
         </template>
       </el-table-column>
