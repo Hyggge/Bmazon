@@ -77,7 +77,7 @@
              @change="queryShopsByOwnerStudentId"
            />
          </div>
-         <div v-else>{{ (scope.row.owner.student_id) }}</div>
+         <div v-else>{{ (scope.row.owner_info.student_id) }}</div>
        </template>
      </el-table-column>
      <el-table-column
@@ -94,7 +94,7 @@
              @change="queryShopsByOwnerStudentName"
            />
          </div>
-         <div v-else>{{ (scope.row.owner.real_name) + `  (ID:${scope.row.owner.id})` }}</div>
+         <div v-else>{{ (scope.row.owner_info.student_name) + `  (ID:${scope.row.owner_info.user_id})` }}</div>
        </template>
      </el-table-column>
      <el-table-column
@@ -175,7 +175,7 @@ export default {
           console.log(data)
           this.tableData = data.data
           this.tableData.unshift({})
-          this.filterTotalCnt = data.filter_count
+          this.filterTotalCnt = data.tot_count
         }).catch((err) => {
           console.log(err.response.data)
         })
