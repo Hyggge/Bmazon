@@ -31,16 +31,6 @@ export default {
       if (headImg == null) headImg = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { username: username, role: res.role, id: res.id, headImg: headImg }, { root: true })
-      // 如果用戶不是管理员，则不展示管理页面
-      if (res.role === 1) {
-        // alert('hello')
-        menuAside.pop()
-        // 设置侧边栏菜单
-        commit('d2admin/menu/asideSet', menuAside)
-        // 初始化菜单搜索功能
-        commit('d2admin/search/init', menuAside)
-      }
-
       // 用户登录后从持久化数据加载一系列的设置
       await dispatch('load')
     },

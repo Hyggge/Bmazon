@@ -21,17 +21,6 @@ export default {
       util.cookies.set('lang', val)
       document.querySelector('html').setAttribute('lang', val)
     }
-  },
-  async mounted () {
-    // 从持久化存储中加载用户信息
-    await this.$store.dispatch('d2admin/user/load', null, { root: true })
-    if (this.$store.state.d2admin.user.info.role === 1) {
-      menuAside.pop()
-    }
-    // 设置侧边栏菜单
-    this.$store.commit('d2admin/menu/asideSet', menuAside)
-    // 初始化菜单搜索功能
-    this.$store.commit('d2admin/search/init', menuAside)
   }
 }
 </script>

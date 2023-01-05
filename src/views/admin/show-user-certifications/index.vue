@@ -417,8 +417,12 @@ export default {
     }
   },
   mounted () {
-    this.currentPage = 1
-    this.queryReqs()
+    // 如果当前用户不是管理员，则发出提示信息
+    if (this.$store.state.d2admin.user.info.role === 0) {
+      this.queryReqs()
+    } else {
+      this.$Message.error('您不是管理员，无权查看该页面的内容！')
+    }
   }
 }
 </script>
