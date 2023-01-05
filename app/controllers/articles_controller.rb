@@ -96,8 +96,10 @@ class ArticlesController < ApplicationController
 
     data = []
     Article.where("title LIKE ?", "%#{keyword}%" )
-             .all[(page-1)*page_size...page*page_size]
-             .each do |article|
+           .filter_by(params.permit(:start_date, :end_date))
+           .order_by(params.permit(:create_time_asc, :create_time_desc))
+           .all[(page-1)*page_size...page*page_size]
+           .each do |article|
       data << {
         id: article.id,
         title: article.title,
