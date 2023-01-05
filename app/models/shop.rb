@@ -39,6 +39,7 @@ class Shop < ApplicationRecord
     self.where(id: res.map(&:id))
   }
   scope :filter_by_reg_date, -> (query) { where(created_at: Time.parse(query)..(Time.parse(query) + 24.hours)) }
+
   scope :order_by_id_asc, -> { order(:id => :asc) }
   scope :order_by_id_desc, ->  { order(:id => :desc) }
 

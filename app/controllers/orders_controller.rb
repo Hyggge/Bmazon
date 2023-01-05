@@ -161,7 +161,9 @@ class OrdersController < ApplicationController
     tot_count = 0
     data = []
     p @current_user.orders
-    @current_user.orders
+    @current_user.orders.filter_by(params.permit(:id_exact, :num_exact, :price_exact, :status_exact,
+                                                  :commodity_name_fuzzy, :shop_name_fuzzy, :username_fuzzy, :create_date))
+                 .order_by(params.permit(:id_asc, :id_desc, :num_asc, :num_desc, :price_asc, :price_desc, :create_time_asc, :create_time_desc))
                  .all[(page-1)*page_size...page*page_size]
                  .each do |order|
       @commodity = order.commodity
@@ -202,10 +204,13 @@ class OrdersController < ApplicationController
     data = []
 
     @shop = Shop.find_by(id: params[:shop_id])
-    all_orders = @shop.commodities.inject([]) do |ans, commodity|
-      ans + commodity.orders.to_a
-    end
-    all_orders[(page-1)*page_size...page*page_size].each do |order|
+    all_orders = Order.all.select { |x| x.commodity.shop == @shop }
+    all_orders = Order.where(id: all_orders.map(&:id))
+    all_orders.filter_by(params.permit(:id_exact, :num_exact, :price_exact, :status_exact,
+                                       :commodity_name_fuzzy, :shop_name_fuzzy, :username_fuzzy, :create_date))
+              .order_by(params.permit(:id_asc, :id_desc, :num_asc, :num_desc, :price_asc, :price_desc, :create_time_asc, :create_time_desc))
+              .all[(page-1)*page_size...page*page_size]
+              .each do |order|
       @commodity = order.commodity
       @user = order.user
       user_info = {
@@ -247,7 +252,10 @@ class OrdersController < ApplicationController
     tot_count = 0
     data = []
 
-    Order.all[(page-1)*page_size...page*page_size]
+    Order.filter_by(params.permit(:id_exact, :num_exact, :price_exact, :status_exact,
+                                  :commodity_name_fuzzy, :shop_name_fuzzy, :username_fuzzy, :create_date))
+         .order_by(params.permit(:id_asc, :id_desc, :num_asc, :num_desc, :price_asc, :price_desc, :create_time_asc, :create_time_desc))
+         .all[(page-1)*page_size...page*page_size]
          .each do |order|
       @commodity = order.commodity
       @user = order.user

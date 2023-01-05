@@ -38,6 +38,7 @@ class User < ApplicationRecord
   scope :filter_by_email_fuzzy, -> (query) { where("email LIKE ?", "%#{query}%")}
   scope :filter_by_phone_no_fuzzy, -> (query) { where("phone_no LIKE ?", "%#{query}%")}
   scope :filter_by_reg_date, -> (query) { where(created_at: Time.parse(query)..(Time.parse(query) + 24.hours)) }
+
   scope :order_by_id_asc, -> { order(:id => :asc) }
   scope :order_by_id_desc, ->  { order(:id => :desc) }
 
