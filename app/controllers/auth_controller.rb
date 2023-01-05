@@ -1,9 +1,4 @@
 class AuthController < ApplicationController
-
-  def redirect_to_frontend
-    redirect_to 'http://127.0.0.1:8081', allow_other_host: true
-  end
-
   # [POST] /api/auth/login
   def login
     @user = User.find_by_username(params[:username])
