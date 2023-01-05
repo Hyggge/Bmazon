@@ -92,6 +92,10 @@
                    @click="openModal">立即下单</el-button>
         <el-button type="primary" round style="margin-top: 20px"
                    @click="copyLink">复制链接</el-button>
+        <el-button v-if="commodityDetails.is_collected === false" type="success" round style="margin-top: 20px"
+                   @click="collect">我要收藏</el-button>
+        <el-button v-else type="warning" round style="margin-top: 20px"
+                   @click="cancel_collect">取消收藏</el-button>
 <!--        <el-button v-if="articleDetails.collect" circle size="mini" @click="cancelCollect">-->
 <!--          <img src="../../../assets/img/collected.svg" alt= "" style="width: 10px">-->
 <!--        </el-button>-->
@@ -297,6 +301,22 @@ export default {
     async copyLink () {
       await this.$copyText(window.location.href)
       this.$Message.success('已经成功复制到剪切板！')
+    },
+    /**
+     * 收藏当前商品
+     */
+    async collect () {
+      await api.COLLECT_COMMODITY(this.commodityId)
+      this.$Message.success('收藏成功！')
+      await this.getCommodityDetails()
+    },
+    /**
+     * 取消收藏当前商品
+     */
+    async cancel_collect () {
+      await api.CANCEL_COLLECT_COMMODITY(this.commodityId)
+      this.$Message.success('已取消收藏！')
+      await this.getCommodityDetails()
     }
   },
   mounted () {

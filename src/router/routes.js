@@ -23,13 +23,13 @@ const frameIn = [
       },
       // 个人消费统计
       {
-        path: 'user/statistic',
-        name: 'user-statistic',
+        path: 'user/collections',
+        name: 'user-collections',
         meta: {
           auth: true,
-          title: '消费统计'
+          title: '我的收藏'
         },
-        component: () => import('@/views/user/statistic')
+        component: () => import('@/views/user/collections')
       },
       // 文章
       {

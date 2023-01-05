@@ -44,8 +44,8 @@ export const menuAside = supplementPath([
     icon: 'truck'
   },
   {
-    path: '/user/statistic',
-    title: '消费统计',
+    path: '/user/collections',
+    title: '我的收藏',
     icon: 'bar-chart'
   },
   {
