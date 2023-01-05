@@ -49,7 +49,7 @@ export default {
       this.article.title = res.title
       this.article.content = res.content
       const base = window.location.href.split('#')[0] + '#/'
-      if (res.commodity !== null) this.article.commodityUrl = base + 'commodity/show-details/' + res.commodity.id
+      if (res.commodity !== null) this.article.commodityUrl = base + 'commodity/show-details/' + res.commodity_info.id
       console.log(this.article)
     },
     /**
