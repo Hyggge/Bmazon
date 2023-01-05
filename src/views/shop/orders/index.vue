@@ -329,7 +329,7 @@ export default {
       filterTotalCnt: 0,
       // 筛选器和排序规则，用于构造请求的params
       filter: {},
-      orderBy: {},
+      orderBy: { create_time_desc: true },
       // 表格数据
       tableData: [{}]
     }
@@ -379,7 +379,7 @@ export default {
         } else if (value.order === 'descending') {
           this.orderBy = { num_desc: true }
         } else {
-          this.orderBy = null
+          this.orderBy = { create_time_desc: true }
         }
       }
       if (value.prop === 'price') {
@@ -388,7 +388,7 @@ export default {
         } else if (value.order === 'descending') {
           this.orderBy = { price_desc: true }
         } else {
-          this.orderBy = null
+          this.orderBy = { create_time_desc: true }
         }
       }
       if (value.prop === 'start_time') {
@@ -397,7 +397,7 @@ export default {
         } else if (value.order === 'descending') {
           this.orderBy = { create_time_desc: true }
         } else {
-          this.orderBy = null
+          this.orderBy = { create_time_desc: true }
         }
       }
       console.log(this.orderBy)
