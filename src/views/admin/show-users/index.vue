@@ -158,7 +158,7 @@ export default {
       // 筛选器和排序规则，用于构造请求的params
       filter: {},
       order_by: {
-        order_by: 'id'
+        id_asc: true
       },
       // 服务器返回的数据
       tableData: [{}]
@@ -215,11 +215,11 @@ export default {
     handleSortChange (value) {
       if (value.prop === 'id') {
         if (value.order === 'ascending') {
-          Object.assign(this.order_by, { order_by: 'id' })
+          this.order_by = { id_asc: true }
         } else if (value.order === 'descending') {
-          Object.assign(this.order_by, { order_by: '-id' })
+          this.order_by = { id_desc: true }
         } else {
-          Object.assign(this.order_by, { order_by: 'id' })
+          this.order_by = { id_asc: true }
         }
       }
       this.currentPage = 1
@@ -230,9 +230,9 @@ export default {
      */
     queryUsersById () {
       if (this.queryId !== '') {
-        Object.assign(this.filter, { id__exact: this.queryId })
+        Object.assign(this.filter, { id_exact: this.queryId })
       } else {
-        delete this.filter.id__exact
+        delete this.filter.id_exact
       }
       this.currentPage = 1
       this.queryUsers()
@@ -242,21 +242,21 @@ export default {
      */
     queryUsersByUsername () {
       if (this.queryUsername !== '') {
-        Object.assign(this.filter, { username__contains: this.queryUsername })
+        Object.assign(this.filter, { username_fuzzy: this.queryUsername })
       } else {
-        delete this.filter.username__contains
+        delete this.filter.username_fuzzy
       }
       this.currentPage = 1
       this.queryUsers()
     },
     /**
-     * 根据用户输入的昵称进行查询(部分匹配)
+     * 根据用户输入的手机号进行查询(部分匹配)
      */
     queryUsersByPhoneNo () {
       if (this.queryPhoneNo !== '') {
-        Object.assign(this.filter, { PhoneNo__contains: this.queryPhoneNo })
+        Object.assign(this.filter, { phone_no_fuzzy: this.queryPhoneNo })
       } else {
-        delete this.filter.PhoneNo__contains
+        delete this.filter.phone_no_fuzzy
       }
       this.currentPage = 1
       this.queryUsers()
@@ -266,9 +266,9 @@ export default {
      */
     queryUsersByEmail () {
       if (this.queryEmail !== '') {
-        Object.assign(this.filter, { email__contains: this.queryEmail })
+        Object.assign(this.filter, { email_fuzzy: this.queryEmail })
       } else {
-        delete this.filter.email__contains
+        delete this.filter.email_fuzzy
       }
       this.currentPage = 1
       this.queryUsers()
@@ -279,12 +279,9 @@ export default {
     queryUsersByRegTime () {
       console.log(this.queryRegTime)
       if (this.queryRegTime !== null && this.queryRegTime !== '') {
-        const date = this.queryRegTime.split('-')
-        Object.assign(this.filter, { reg_time__year: date[0], reg_time__month: date[1], reg_time__day: date[2] })
+        Object.assign(this.filter, { reg_date: this.queryRegTime })
       } else {
-        delete this.filter.reg_time__year
-        delete this.filter.reg_time__month
-        delete this.filter.reg_time__day
+        delete this.filter.reg_date
       }
       this.currentPage = 1
       this.queryUsers()

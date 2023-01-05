@@ -28,17 +28,17 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="nickname"
-        label="昵称"
+        prop="username"
+        label="用户名"
         align="center"
         width="180">
         <template v-slot="scope">
           <div v-if="scope.$index === 0">
             <el-input
-              v-model="queryNickname"
+              v-model="queryUsername"
               size="small"
-              placeholder="查询昵称"
-              @change="queryReqsByNickName"
+              placeholder="查询用户名"
+              @change="queryReqsByUsername"
             />
           </div>
           <div v-else>{{ (scope.row.username) }}</div>
@@ -235,7 +235,7 @@ export default {
       // 用户输入的查询参数
       queryId: '',
       queryUserId: '',
-      queryNickname: '',
+      queryUsername: '',
       queryStudentName: '',
       queryStudentId: '',
       queryReqTime: '',
@@ -348,11 +348,11 @@ export default {
     /**
      * 根据用户输入的昵称进行查询(部分匹配)
      */
-    queryReqsByNickName () {
-      if (this.queryNickname !== '') {
-        Object.assign(this.filter, { user__nickname__contains: this.queryNickname })
+    queryReqsByUsername () {
+      if (this.queryUsername !== '') {
+        Object.assign(this.filter, { user__Username__contains: this.queryUsername })
       } else {
-        delete this.filter.user__nickname__contains
+        delete this.filter.user__Username__contains
       }
       this.currentPage = 1
       this.queryReqs()
