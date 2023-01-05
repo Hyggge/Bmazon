@@ -7,7 +7,7 @@ module Sortable
     def order_by(ordering_params)
       results = self.where(nil)
       ordering_params.each do |key, value|
-        results = results.public_send("order_by_#{value}") if value.present?
+        results = results.public_send("order_by_#{key}") if value.present?
       end
       results
     end

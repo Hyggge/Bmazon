@@ -55,7 +55,10 @@ class UsersController < ApplicationController
     tot_count = 0
 
     data = []
-    User.all[(page-1)*page_size...page*page_size].each do |user|
+    User.filter_by(params.permit(:id_exact, :username_fuzzy, :email_fuzzy, :phone_no_fuzzy, :reg_date))
+        .order_by(params.permit(:id_asc, :id_desc))
+        .all[(page-1)*page_size...page*page_size]
+        .each do |user|
       data << {
         id: user.id,
         username: user.username,
