@@ -107,6 +107,8 @@
            <el-date-picker
              v-model="queryRegTime"
              type="date"
+             size="mini"
+             style="width: 100%"
              value-format="yyyy-MM-dd"
              @change="queryShopsByRegTime"
              placeholder="选择日期">
@@ -153,7 +155,7 @@ export default {
       // 筛选器和排序规则，用于构造请求的params
       filter: {},
       order_by: {
-        order_by: 'id'
+        id_asc: true
       },
       // 表格数据
       tableData: []
@@ -197,11 +199,11 @@ export default {
     handleSortChange (value) {
       if (value.prop === 'id') {
         if (value.order === 'ascending') {
-          Object.assign(this.order_by, { order_by: 'id' })
+          this.order_by = { id_asc: true }
         } else if (value.order === 'descending') {
-          Object.assign(this.order_by, { order_by: '-id' })
+          this.order_by = { id_desc: true }
         } else {
-          Object.assign(this.order_by, { order_by: 'id' })
+          this.order_by = { id_asc: true }
         }
       }
       this.currentPage = 1
@@ -212,9 +214,9 @@ export default {
      */
     queryShopsById () {
       if (this.queryId !== '') {
-        Object.assign(this.filter, { id__exact: this.queryId })
+        Object.assign(this.filter, { id_exact: this.queryId })
       } else {
-        delete this.filter.id__exact
+        delete this.filter.id_exact
       }
       this.currentPage = 1
       this.queryShops()
@@ -224,9 +226,9 @@ export default {
      */
     queryShopsByName () {
       if (this.queryName !== '') {
-        Object.assign(this.filter, { name__contains: this.queryName })
+        Object.assign(this.filter, { name_fuzzy: this.queryName })
       } else {
-        delete this.filter.name__contains
+        delete this.filter.name_fuzzy
       }
       this.currentPage = 1
       this.queryShops()
@@ -236,9 +238,9 @@ export default {
      */
     queryShopsByType () {
       if (this.queryType !== '') {
-        Object.assign(this.filter, { type__exact: this.queryType })
+        Object.assign(this.filter, { type_exact: this.queryType })
       } else {
-        delete this.filter.type__exact
+        delete this.filter.type_exact
       }
       this.currentPage = 1
       this.queryShops()
@@ -248,9 +250,9 @@ export default {
      */
     queryShopsByOwnerStudentId () {
       if (this.queryOwnerStudentId !== '') {
-        Object.assign(this.filter, { owner__student__id__contains: this.queryOwnerStudentId })
+        Object.assign(this.filter, { student_id_fuzzy: this.queryOwnerStudentId })
       } else {
-        delete this.filter.owner__student__id__contains
+        delete this.filter.student_id_fuzzy
       }
       this.currentPage = 1
       this.queryShops()
@@ -260,9 +262,9 @@ export default {
      */
     queryShopsByOwnerStudentName () {
       if (this.queryOwnerStudentName !== '') {
-        Object.assign(this.filter, { owner__student__name__contains: this.queryOwnerStudentName })
+        Object.assign(this.filter, { student_name_fuzzy: this.queryOwnerStudentName })
       } else {
-        delete this.filter.owner__student__name__contains
+        delete this.filter.student_name_fuzzy
       }
       this.currentPage = 1
       this.queryShops()
@@ -273,12 +275,9 @@ export default {
     queryShopsByRegTime () {
       console.log(this.queryRegTime)
       if (this.queryRegTime !== null && this.queryRegTime !== '') {
-        const date = this.queryRegTime.split('-')
-        Object.assign(this.filter, { reg_time__year: date[0], reg_time__month: date[1], reg_time__day: date[2] })
+        Object.assign(this.filter, { reg_date: this.queryRegTime })
       } else {
-        delete this.filter.reg_time__year
-        delete this.filter.reg_time__month
-        delete this.filter.reg_time__day
+        delete this.filter.reg_date
       }
       this.currentPage = 1
       this.queryShops()
