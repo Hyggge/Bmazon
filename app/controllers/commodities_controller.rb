@@ -134,7 +134,9 @@ class CommoditiesController < ApplicationController
     tot_count = 0
 
     data = []
-    Commodity.where("name LIKE ?", "%#{keyword}%" )
+    Commodity.where("name LIKE ? OR introduction LIKE ?", "%#{keyword}%", "%#{keyword}%" )
+             .filter_by(params.permit(:min_price, :max_price, :status_exact, :method_exact))
+             .order_by(params.permit(:price_asc, :price_desc, :sale_asc, :sale_desc))
              .all[(page-1)*page_size...page*page_size]
              .each do |commodity|
       data << {
