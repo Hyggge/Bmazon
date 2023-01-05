@@ -1,6 +1,7 @@
 class Shop < ApplicationRecord
   self.inheritance_column = :_type_disabled
   include Filterable
+  include Sortable
 
   validates :name, presence: true
   validates :type, presence: true, numericality: { in: 0..1 }

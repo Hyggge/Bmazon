@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
+  include Filterable
+  include Sortable
+
   # choices of `status`
   CREATED = 0
   PAID = 1

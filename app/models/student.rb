@@ -1,4 +1,8 @@
 class Student < ApplicationRecord
+  include Filterable
+  include Sortable
+
+
   validates :name, presence: true
   validates :depart, presence: true
   validates :attendance_year, presence: true

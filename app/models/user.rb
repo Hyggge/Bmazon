@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Filterable
+  include Sortable
 
   has_secure_password
 
