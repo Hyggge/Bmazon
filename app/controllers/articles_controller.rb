@@ -95,7 +95,7 @@ class ArticlesController < ApplicationController
     tot_count = 0
 
     data = []
-    Article.where("title LIKE ?", "%#{keyword}%" )
+    Article.where("title LIKE ? OR content LIKE ?", "%#{keyword}%", "%#{keyword}%")
            .filter_by(params.permit(:start_date, :end_date))
            .order_by(params.permit(:create_time_asc, :create_time_desc))
            .all[(page-1)*page_size...page*page_size]
