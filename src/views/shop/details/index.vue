@@ -219,8 +219,15 @@ export default {
             this.$Message.success('添加成功！')
             this.getShopDetails()
           })
-          .catch(() => {
-            this.$Message.error('添加失败！')
+          .catch((err) => {
+            if (err.response.data.error === 'only the owner can add an manager')
+              this.$Message.error('只有店主才能添加管理员')
+            else if (err.response.data.error === 'the owner cannot become the manager')
+              this.$Message.error('店主不能成为管理员')
+            else if (err.response.data.error === 'the student is already a manager of the store')
+              this.$Message.error('不能重复添加')
+            else
+              this.$Message.error('学号不存在')
           })
       })
     },
@@ -237,8 +244,15 @@ export default {
             this.$Message.success('删除成功！')
             this.getShopDetails()
           })
-          .catch(() => {
-            this.$Message.error('删除失败！')
+          .catch((err) => {
+            if (err.response.data.error === 'only the owner can delete an manager')
+              this.$Message.error('只有店主才能删除管理员')
+            else if (err.response.data.error === 'the owner cannot become the manager')
+              this.$Message.error('店主不能成为管理员')
+            else if (err.response.data.error === 'the student is not a manager of the shop')
+              this.$Message.error('该学生不是当前店铺的管理员')
+            else
+              this.$Message.error('学号不存在')
           })
       })
     },
