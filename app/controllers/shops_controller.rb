@@ -54,8 +54,6 @@ class ShopsController < ApplicationController
       render json: {error: "only the owner can delete an manager"}, status: :bad_request
     elsif @shop.type == 0
       render json: {error: "only partner stores can delete manager"}, status: :bad_request
-    elsif @student == nil
-      render json: {error: "student_id is invalid"}, status: :bad_request
     elsif !@shop.managers.include?(@student.user)
       render json: {error: "the student is not a manager of the shop"}, status: :bad_request
     else
