@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Filterable
+
   has_secure_password
 
   # choices of `role`
@@ -28,4 +30,15 @@ class User < ApplicationRecord
   has_many :written_articles, class_name: "Article", foreign_key: :author_id, dependent: :delete_all
 
   has_many :written_replies, class_name: "Reply", foreign_key: :user_id, dependent: :delete_all
+
+  # scope
+  scope :filter_by_id_exact, -> (query) { where(id: query) }
+  scope :filter_by_username_fuzzy, -> (query) { where("username LIKE ?", "%#{query}%") }
+  scope :filter_by_email_fuzzy, -> (query) { where("email LIKE ?", "%#{query}%")}
+  scope :filter_by_phone_no_fuzzy, -> (query) { where("phone_no LIKE ?", "%#{query}%")}
+  scope :filter_by_reg_date, -> (query) { where(created_at: Time.parse(query)..(Time.parse(query) + 24.hours)) }
+  scope :order_by_id_asc, -> { order(:id => :asc) }
+  scope :order_by_id_desc, ->  { order(:id => :desc) }
+
+
 end
