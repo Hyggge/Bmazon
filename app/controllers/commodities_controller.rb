@@ -118,6 +118,7 @@ class CommoditiesController < ApplicationController
       sale: @commodity.sale,
       price: @commodity.price,
       grade: get_commodity_grade(@commodity),
+      is_collected: @current_user.collecting_commodities.include?(@commodity),
       image_url: @commodity.image == nil ? nil : @commodity.image.url,
       shop_info: shop_info,
       params: param_list
@@ -149,6 +150,7 @@ class CommoditiesController < ApplicationController
         sale: commodity.sale,
         price: commodity.price,
         grade: get_commodity_grade(commodity),
+        is_collected: @current_user.collecting_commodities.include?(commodity),
         image_url: commodity.image == nil ? nil : commodity.image.url,
         shop_info: {
           id: commodity.shop.id,
@@ -297,6 +299,7 @@ class CommoditiesController < ApplicationController
         sale: commodity.sale,
         price: commodity.price,
         grade: get_commodity_grade(commodity),
+        is_collected: @current_user.collecting_commodities.include?(commodity),
         image_url: commodity.image == nil ? nil : commodity.image.url,
         shop_info: {
           id: commodity.shop.id,
