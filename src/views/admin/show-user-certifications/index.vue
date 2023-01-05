@@ -11,6 +11,41 @@
       @sort-change="handleSortChange"
     >
       <el-table-column
+        prop="student_id"
+        sortable="custom"
+        label="学号"
+        align="center"
+        width="180">
+        <template v-slot="scope">
+          <div v-if="scope.$index === 0">
+            <el-input
+              v-model="queryStudentId"
+              size="small"
+              placeholder="查询学号"
+              @change="queryReqsByStudentId"
+            />
+          </div>
+          <div v-else>{{ (scope.row.student_id) }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="student_name"
+        label="学生姓名"
+        align="center"
+        width="180">
+        <template v-slot="scope">
+          <div v-if="scope.$index === 0">
+            <el-input
+              v-model="queryStudentName"
+              size="small"
+              placeholder="查询学生姓名"
+              @change="queryReqsByStudentName"
+            />
+          </div>
+          <div v-else>{{ (scope.row.student_name) }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="user_id"
         label="用户ID"
         align="center"
@@ -42,40 +77,6 @@
             />
           </div>
           <div v-else>{{ (scope.row.username) }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="studentId"
-        label="学号"
-        align="center"
-        width="180">
-        <template v-slot="scope">
-          <div v-if="scope.$index === 0">
-            <el-input
-              v-model="queryStudentId"
-              size="small"
-              placeholder="查询学号"
-              @change="queryReqsByStudentId"
-            />
-          </div>
-          <div v-else>{{ (scope.row.student_id) }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="studentName"
-        label="学生姓名"
-        align="center"
-        width="180">
-        <template v-slot="scope">
-          <div v-if="scope.$index === 0">
-            <el-input
-              v-model="queryStudentName"
-              size="small"
-              placeholder="查询学生姓名"
-              @change="queryReqsByStudentName"
-            />
-          </div>
-          <div v-else>{{ (scope.row.student_name) }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -233,7 +234,6 @@ export default {
       comment: '',
       drawer: false,
       // 用户输入的查询参数
-      queryId: '',
       queryUserId: '',
       queryUsername: '',
       queryStudentName: '',
@@ -248,7 +248,7 @@ export default {
       // 筛选器和排序规则，用于构造请求的params
       filter: {},
       order_by: {
-        order_by: 'id'
+        student_id_asc: true
       },
       // 服务器返回的数据
       tableData: [{}],
@@ -309,13 +309,22 @@ export default {
      * @param value
      */
     handleSortChange (value) {
-      if (value.prop === 'id') {
+      if (value.prop === 'student_id') {
         if (value.order === 'ascending') {
-          Object.assign(this.order_by, { order_by: 'id' })
+          this.order_by = { student_id_asc: true }
         } else if (value.order === 'descending') {
-          Object.assign(this.order_by, { order_by: '-id' })
+          this.order_by = { student_id_desc: true }
         } else {
-          Object.assign(this.order_by, { order_by: 'id' })
+          this.order_by = { student_id_asc: true }
+        }
+      }
+      else if (value.prop === 'user_id') {
+        if (value.order === 'ascending') {
+          this.order_by = { user_id_asc: true }
+        } else if (value.order === 'descending') {
+          this.order_by = { user_id_desc: true }
+        } else {
+          this.order_by = { student_id_asc: true }
         }
       }
       this.currentPage = 1
@@ -338,9 +347,9 @@ export default {
      */
     queryReqsByUserId () {
       if (this.queryUserId !== '') {
-        Object.assign(this.filter, { user_id__exact: this.queryUserId })
+        Object.assign(this.filter, { user_id_exact: this.queryUserId })
       } else {
-        delete this.filter.user_id__exact
+        delete this.filter.user_id_exact
       }
       this.currentPage = 1
       this.queryReqs()
@@ -350,9 +359,9 @@ export default {
      */
     queryReqsByUsername () {
       if (this.queryUsername !== '') {
-        Object.assign(this.filter, { user__Username__contains: this.queryUsername })
+        Object.assign(this.filter, { username_fuzzy: this.queryUsername })
       } else {
-        delete this.filter.user__Username__contains
+        delete this.filter.username_fuzzy
       }
       this.currentPage = 1
       this.queryReqs()
@@ -362,9 +371,9 @@ export default {
      */
     queryReqsByStudentId () {
       if (this.queryStudentId !== '') {
-        Object.assign(this.filter, { student_id__contains: this.queryStudentId })
+        Object.assign(this.filter, { student_id_fuzzy: this.queryStudentId })
       } else {
-        delete this.filter.student_id__contains
+        delete this.filter.student_id_fuzzy
       }
       this.currentPage = 1
       this.queryReqs()
@@ -374,49 +383,34 @@ export default {
      */
     queryReqsByStudentName () {
       if (this.queryStudentName !== '') {
-        Object.assign(this.filter, { student_name__contains: this.queryStudentName })
+        Object.assign(this.filter, { student_name_fuzzy: this.queryStudentName })
       } else {
-        delete this.filter.student_name__contains
+        delete this.filter.student_name_fuzzy
       }
       this.currentPage = 1
       this.queryReqs()
     },
     /**
-     * 根据用户输入的学生姓名进行查询(部分匹配)
+     * 根据用户输入的学生院系进行查询(部分匹配)
      */
     queryReqsByDepart () {
-      if (this.queryStudentName !== '') {
-        Object.assign(this.filter, { student_name__contains: this.queryStudentName })
+      if (this.queryDepart !== '') {
+        Object.assign(this.filter, { depart_exact: this.queryDepart })
       } else {
-        delete this.filter.student_name__contains
+        delete this.filter.depart_exact
       }
       this.currentPage = 1
       this.queryReqs()
     },
     /**
-     * 根据用户选择的注册时间进行查询(部分匹配)
+     * 根据用户选择的认证时间进行查询(部分匹配)
      */
     queryReqsByReqTime () {
       console.log(this.queryReqTime)
       if (this.queryReqTime !== null && this.queryReqTime !== '') {
-        const date = this.queryReqTime.split('-')
-        Object.assign(this.filter, { req_time__year: date[0], req_time__month: date[1], req_time__day: date[2] })
+        Object.assign(this.filter, { reg_date: this.queryReqTime })
       } else {
-        delete this.filter.req_time__year
-        delete this.filter.req_time__month
-        delete this.filter.req_time__day
-      }
-      this.currentPage = 1
-      this.queryReqs()
-    },
-    /**
-     * 根据用户输入的申请状态进行查询
-     */
-    queryReqsByStatus () {
-      if (this.queryStatus !== '') {
-        Object.assign(this.filter, { status__exact: this.queryStatus })
-      } else {
-        delete this.filter.status__exact
+        delete this.filter.reg_date
       }
       this.currentPage = 1
       this.queryReqs()
