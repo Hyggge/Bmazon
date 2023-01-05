@@ -30,7 +30,6 @@ class Shop < ApplicationRecord
     self.where(id: res.map(&:id))
   }
   scope :filter_by_student_name_fuzzy, -> (query) {
-    # joins(:owner => :student).where("student.id LIKE ?", "%#{query}%")
     res = find_by_sql("
         SELECT shops.* FROM shops
         INNER JOIN users ON users.id = shops.owner_id

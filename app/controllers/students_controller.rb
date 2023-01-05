@@ -60,7 +60,10 @@ class StudentsController < ApplicationController
     cnt = 0
 
     data = []
-    Student.all[(page-1)*page_size...page*page_size].each do |student|
+    Student.filter_by(params.permit(:student_id_fuzzy, :student_name_fuzzy, :depart_exact, :user_id_exact, :username_fuzzy, :reg_date))
+           .order_by(params.permit(:student_id_asc, :student_id_desc, :user_id_asc, :user_id_desc))
+           .all[(page-1)*page_size...page*page_size]
+           .each do |student|
       cnt += 1
       user = student.user
       data << {
