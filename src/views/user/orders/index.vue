@@ -353,7 +353,7 @@ export default {
       filterTotalCnt: 0,
       // 筛选器和排序规则，用于构造请求的params
       filter: {},
-      orderBy: '',
+      orderBy: {},
       // 表格数据
       tableData: [{}],
       // 评论弹框
@@ -381,13 +381,8 @@ export default {
       // 构造params
       const params = {
         ...this.filter,
+        ...this.orderBy,
         page: this.currentPage
-      }
-      // 将order_by加入params
-      if (this.orderBy !== null && this.orderBy !== '') {
-        params.order_by = this.orderBy
-      } else {
-        params.order_by = '-start_time' // 默认通过下单时间降序排序
       }
       // 发送请求
       const res = await api.GET_ORDER_LIST_FOR_USER(params)
@@ -411,27 +406,28 @@ export default {
     handleSortChange (value) {
       if (value.prop === 'num') {
         if (value.order === 'ascending') {
-          this.orderBy = 'num'
+          this.orderBy = { num_asc: true }
         } else if (value.order === 'descending') {
           this.orderBy = '-num'
+          this.orderBy = { num_desc: true }
         } else {
-          this.orderBy = null
+          this.orderBy = {}
         }
       }
       if (value.prop === 'price') {
         if (value.order === 'ascending') {
-          this.orderBy = 'price'
+          this.orderBy = { price_asc: true }
         } else if (value.order === 'descending') {
-          this.orderBy = '-price'
+          this.orderBy = { price_desc: true }
         } else {
-          this.orderBy = null
+          this.orderBy = {}
         }
       }
       if (value.prop === 'start_time') {
         if (value.order === 'ascending') {
-          this.orderBy = 'start_time'
+          this.orderBy = { create_time_asc: true }
         } else if (value.order === 'descending') {
-          this.orderBy = '-start_time'
+          this.orderBy = { create_time_desc: true }
         } else {
           this.orderBy = null
         }
@@ -445,9 +441,9 @@ export default {
      */
     queryOrdersByCommodityName () {
       if (this.query.commodityName !== '') {
-        Object.assign(this.filter, { commodity__name__contains: this.query.commodityName })
+        Object.assign(this.filter, { commodity_name_fuzzy: this.query.commodityName })
       } else {
-        delete this.filter.commodity__name__contains
+        delete this.filter.commodity_name_fuzzy
       }
       this.currentPage = 1
       this.queryOrders()
@@ -457,9 +453,9 @@ export default {
      */
     queryOrdersByNum () {
       if (this.query.num !== '') {
-        Object.assign(this.filter, { num__exact: this.query.num })
+        Object.assign(this.filter, { num_exact: this.query.num })
       } else {
-        delete this.filter.num__exact
+        delete this.filter.num_exact
       }
       this.currentPage = 1
       this.queryOrders()
@@ -469,9 +465,9 @@ export default {
      */
     queryOrdersByPrice () {
       if (this.query.price !== '') {
-        Object.assign(this.filter, { price__exact: this.query.price })
+        Object.assign(this.filter, { price_exact: this.query.price })
       } else {
-        delete this.filter.price__exact
+        delete this.filter.price_exact
       }
       this.currentPage = 1
       this.queryOrders()
@@ -481,9 +477,9 @@ export default {
      */
     queryOrdersByShopName () {
       if (this.query.shopName !== '') {
-        Object.assign(this.filter, { commodity__shop__name__contains: this.query.shopName })
+        Object.assign(this.filter, { shop_name_fuzzy: this.query.shopName })
       } else {
-        delete this.filter.commodity__shop__name__contains
+        delete this.filter.shop_name_fuzzy
       }
       this.currentPage = 1
       this.queryOrders()
@@ -493,9 +489,9 @@ export default {
      */
     queryOrdersByStatus () {
       if (this.query.status !== '') {
-        Object.assign(this.filter, { status__exact: this.query.status })
+        Object.assign(this.filter, { status_exact: this.query.status })
       } else {
-        delete this.filter.status__exact
+        delete this.filter.status_exact
       }
       this.currentPage = 1
       this.queryOrders()
@@ -505,12 +501,9 @@ export default {
      */
     queryOrdersByStartTime () {
       if (this.query.startTime !== null && this.query.startTime !== '') {
-        const date = this.query.startTime.split('-')
-        Object.assign(this.filter, { start_time__year: date[0], start_time__month: date[1], start_time__day: date[2] })
+        Object.assign(this.filter, { create_date: this.query.startTime })
       } else {
-        delete this.filter.start_time__year
-        delete this.filter.start_time__month
-        delete this.filter.start_time__day
+        delete this.filter.create_date
       }
       this.currentPage = 1
       this.queryOrders()
