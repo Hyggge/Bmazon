@@ -116,14 +116,15 @@ export default {
     async queryArticles () {
       const params = {
         ...this.filter,
+        ...this.orderBy,
         page: this.currentPage,
         keyword: this.query.keyword
       }
       // 增加排序规则
       if (this.orderBy === 0) {
-        params.order_by = 'post_time'
+        params.create_time_asc = true
       } else {
-        params.order_by = '-post_time'
+        params.create_time_desc = true
       }
       // 发送请求
       const res = await api.GET_ARTICLE_LIST_FOR_USER(params)
@@ -149,23 +150,13 @@ export default {
     queryArticlesByDateRange () {
       console.log(this.query.dayRange)
       if (this.query.dayRange !== [] && this.query.dayRange !== null) {
-        const startDate = this.query.dayRange[0].split('-')
-        const endDate = this.query.dayRange[1].split('-')
         Object.assign(this.filter, {
-          post_time__year__gte: startDate[0],
-          post_time__year__lte: endDate[0],
-          post_time__month__gte: startDate[1],
-          post_time__month__lte: endDate[1],
-          post_time__day__gte: startDate[2],
-          post_time__day__lte: endDate[2]
+          start_date: this.query.dayRange[0],
+          end_date: this.query.dayRange[1]
         })
       } else {
-        delete this.filter.post_time__year__gte
-        delete this.filter.post_time__year__lte
-        delete this.filter.post_time__month__gte
-        delete this.filter.post_time__month__lte
-        delete this.filter.post_time__day__gte
-        delete this.filter.post_time__day__lte
+        delete this.filter.start_date
+        delete this.filter.end_date
       }
       this.currentPage = 1
       this.queryArticles()
