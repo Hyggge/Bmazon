@@ -21,21 +21,23 @@ class Shop < ApplicationRecord
   scope :filter_by_type_exact, -> (query) { where(type: query) }
   scope :filter_by_student_id_fuzzy, -> (query) {
     # joins(:owner => :student).where("student.id LIKE ?", "%#{query}%")
-    find_by_sql("
-        SELECT * FROM shops
+    res = find_by_sql("
+        SELECT shops.* FROM shops
         INNER JOIN users ON users.id = shops.owner_id
         INNER JOIN students ON students.id = users.student_id
         WHERE students.id LIKE '%#{query}%'
     ")
+    self.where(id: res.map(&:id))
   }
   scope :filter_by_student_name_fuzzy, -> (query) {
     # joins(:owner => :student).where("student.id LIKE ?", "%#{query}%")
-    find_by_sql("
-        SELECT * FROM shops
+    res = find_by_sql("
+        SELECT shops.* FROM shops
         INNER JOIN users ON users.id = shops.owner_id
         INNER JOIN students ON students.id = users.student_id
         WHERE students.name LIKE '%#{query}%'
     ")
+    self.where(id: res.map(&:id))
   }
   scope :filter_by_reg_date, -> (query) { where(created_at: Time.parse(query)..(Time.parse(query) + 24.hours)) }
   scope :order_by_id_asc, -> { order(:id => :asc) }

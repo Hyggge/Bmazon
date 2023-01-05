@@ -139,8 +139,13 @@ class ShopsController < ApplicationController
     page_size = params[:page_size] ? params[:page_size].to_i : 10
     tot_count = 0
 
+    p Shop.filter_by(params.permit(:id_exact, :name_fuzzy, :type_exact, :student_id_fuzzy, :student_name_fuzzy, :reg_date))
+
     data = []
-    Shop.all[(page-1)*page_size...page*page_size].each do |shop|
+    Shop.filter_by(params.permit(:id_exact, :name_fuzzy, :type_exact, :student_id_fuzzy, :student_name_fuzzy, :reg_date))
+        .order_by(params.permit(:id_asc, :id_desc))
+        .all[(page-1)*page_size...page*page_size]
+        .each do |shop|
       data << {
         id: shop.id,
         name: shop.name,
