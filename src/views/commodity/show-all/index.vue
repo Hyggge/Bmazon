@@ -24,13 +24,13 @@
         <el-input v-model="query.maxPrice" placeholder="请输入" @change="queryCommoditiesByMaxPrice" ></el-input>
       </el-form-item>
       <el-form-item label="商品状态">
-        <el-select v-model="query.status" multiple placeholder="请选择" clearable @change="queryCommoditiesByStatus">
+        <el-select v-model="query.status" placeholder="请选择" clearable @change="queryCommoditiesByStatus">
           <el-option label="预售中" :value="1">预售中</el-option>
           <el-option label="售卖中" :value="2">售卖中</el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="交易方式">
-        <el-select v-model="query.method" placeholder="请选择" multiple clearable @change="queryCommoditiesByMethod">
+        <el-select v-model="query.method" placeholder="请选择"  clearable @change="queryCommoditiesByMethod">
           <el-option label="线上交易" :value="0">线上交易</el-option>
           <el-option label="线下自取" :value="1">线下自取</el-option>
           <el-option label="送货上门" :value="2">送货上门</el-option>
@@ -115,8 +115,8 @@ export default {
         keyword: '',
         minPrice: '',
         maxPrice: '',
-        status: [],
-        method: [],
+        status: '',
+        method: '',
         minSale: '',
         haveStock: ''
       },
@@ -143,13 +143,13 @@ export default {
       }
       // 加入排序规则
       if (this.orderBy === 0) {
-        params.order_by = 'price'
+        params.price_asc = true
       } else if (this.orderBy === 1) {
-        params.order_by = '-price'
+        params.price_desc = true
       } else if (this.orderBy === 2) {
-        params.order_by = 'sale'
+        params.sale_asc = true
       } else {
-        params.order_by = '-sale'
+        params.sale_desc = true
       }
       // 发送请求
       const res = await api.GET_COMMODITY_LIST_FOR_USER(params)
@@ -187,9 +187,9 @@ export default {
     queryCommoditiesByStatus () {
       console.log(this.query.status)
       if (this.query.status.length !== 0) {
-        Object.assign(this.filter, { status: this.query.status })
+        Object.assign(this.filter, { status_exact: this.query.status })
       } else {
-        this.filter.status = [1, 2]
+        this.filter.status_exact = [1, 2]
       }
       this.currentPage = 1
       this.queryCommodities()
@@ -199,9 +199,9 @@ export default {
      */
     queryCommoditiesByMethod () {
       if (this.query.method.length !== 0) {
-        Object.assign(this.filter, { method: this.query.method })
+        Object.assign(this.filter, { method_exact: this.query.method })
       } else {
-        delete this.filter.method
+        delete this.filter.method_exact
       }
       this.currentPage = 1
       this.queryCommodities()
@@ -234,7 +234,6 @@ export default {
     }
   },
   mounted () {
-    this.filter.status = [1, 2] // 只允许预售和在售的商品出现
     this.queryCommodities()
   }
 }
