@@ -56,7 +56,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即认证</el-button>
+            <el-button type="primary" @click.once="onSubmit">立即认证</el-button>
           </el-form-item>
         </el-form>
 
@@ -92,42 +92,32 @@ export default {
     /**
      * 提交认证请求
      */
-    onSubmit () {
+    async onSubmit () {
       // 检查表单项是否为空
       if (this.form.student_id === '' || this.form.student_name === '' || this.form.image_id === '') {
         this.$Message.error('表单项不能为空')
         this.valid = false
       }
       // 检查学号是否重复
-      this.checkDupStudentId(this.form.student_id)
+      await this.checkDupStudentId(this.form.student_id)
       // 发起认证请求
       if (this.valid) {
-        api.SUBMIT_USER_CERTIFICATE(this.form)
-          .then((res) => {
-            this.$Message.success('认证成功！')
-            this.$router.push({ path: '/user/details' })
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        await api.SUBMIT_USER_CERTIFICATE(this.form)
+        this.$Message.success('认证成功！')
+        await this.$router.push({path: '/user/details'})
       }
     },
     /**
      * 检查用户输入的学号是否已经被认证过
      */
-    checkDupStudentId () {
-      api.CHECK_DUP_STUDENT_ID(this.form.student_id)
-        .then((res) => {
-          if (res.exist === true) {
-            this.valid = false
-            this.$Message.error('该学号已被认证过')
-          } else {
-            this.valid = true
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    async checkDupStudentId () {
+      const res = api.CHECK_DUP_STUDENT_ID(this.form.student_id)
+      if (res.exist === true) {
+        this.valid = false
+        this.$Message.error('该学号已被认证过')
+      } else {
+        this.valid = true
+      }
     },
     /**
      * 检查用户上传图片的格式和大小
