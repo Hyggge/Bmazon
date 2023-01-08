@@ -9,7 +9,7 @@
     <!--商品列表-->
     <el-row :gutter="30">
       <div v-for="commodity in commodityList" :key="commodity.id">
-        <el-col :span="6" style="margin-bottom: 20px" >
+        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="4" style="margin-bottom: 20px" >
           <div @click="showDetails(commodity.id)">
             <el-card style="height: 400px; cursor: pointer">
               <!--商品图片-->
