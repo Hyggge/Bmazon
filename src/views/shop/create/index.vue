@@ -62,7 +62,8 @@ export default {
           this.$router.push('/shop/details')
         })
         .catch((err) => {
-          if (err.response.data.error_msg === 'ErrorCode.INVALID_REQUEST_ARGS: 需要先进行学生认证才能开店') {
+          console.log(err.response.data.error)
+          if (err.response.data.error === 'user has not completed student certification') {
             this.$Message.error('需要先进行学生认证才能开店')
           }
         })

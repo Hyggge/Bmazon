@@ -197,7 +197,7 @@
               {{param.name}}
             </template>
             <el-tag v-for="(option, index) in param.options" :key="option.id" :type="tagTypes[index % 4]" style="margin-right: 10px" >
-              {{`${option.description}(¥${formatPrice(curCommodityDetails.price, option.add)})`}}
+              {{`${option.description}(${option.add >= 0 ? '+' : '-' }¥${formatPrice(0, option.add)})`}}
             </el-tag>
           </el-descriptions-item>
         </el-descriptions>
