@@ -1,8 +1,11 @@
 ---
-name: 🐛 错误报告 | Bug Report
-about: 请详细描述您使用过程中遇到的问题。| Please describe in detail the problems you encountered in the process of using.
-title: "🐛 一些问题。。。 | [Bug] Some problem..."
-labels: ["bug"]
+name: "\U0001F41B 错误报告 | Bug Report"
+about: 请详细描述您使用过程中遇到的问题。| Please describe in detail the problems you encountered in
+  the process of using.
+title: "\U0001F41B 一些问题。。。 | [Bug] Some problem..."
+labels: bug
+assignees: ''
+
 ---
 
 <!-- 请在您提交 bug 之前，回答以下这些问题。 | Please answer these questions before you submit a bug. -->
