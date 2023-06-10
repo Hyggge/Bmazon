@@ -1,4 +1,4 @@
-# BUAA-DataBase-Project-frontend
+# BMazon Frontend
 
 ### 项目启动方式
 - 安装依赖 `npm i` / `cnpm i`
